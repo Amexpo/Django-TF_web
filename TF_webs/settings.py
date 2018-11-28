@@ -71,10 +71,10 @@ TEMPLATES = [
 DATABASES = {
     'default': {
          'ENGINE': 'sql_server.pyodbc',
-         'NAME': 'BarcodeCenterbuf',
-         'USER': 'barcode',
-         'PASSWORD': 'Tm1303glxt',
-         'HOST': '10.204.169.33\mssqlserver1',
+         'NAME': '*',
+         'USER': '*',
+         'PASSWORD': '*',
+         'HOST': '*',
          'PORT': '1433',
          'OPTIONS': {
               'driver':'SQL Server Native Client 10.0',
