@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+		#attention {
+					margin:20px;
+					font-size:16px;
+					color:red;
+		}
+		input{
+			 border: none;
+			 overflow: hidden;
+			 width: 100%;
+			 background:white;
+			 font-family: verdana,arial,sans-serif;
+			 font-size:14px;
+		  } 
+		  table.gridtable {
+			  font-family: verdana,arial,sans-serif;
+			  font-size:14px;
+			  color:#333333;
+			  border-width: 1px;
+			  border-color: #666666;
+			  border-collapse: collapse;
+			  width:800px;
+		 }
+		 table.gridtable th {
+			 border-width: 1px;
+			 padding: 8px;
+			 border-style: solid;
+			 border-color: #666666;
+			 background-color: #dedede;
+		 }
+		 table.gridtable td {
+			 border-width: 1px;
+			 padding: 8px;
+			 border-style: solid;
+			 border-color: #666666;
+			 background-color: #ffffff;
+		 }
+</style>
+</head>
+<div>
+<body bgcolor='#F5F5F5'>
+	<p style="font-size:15px;line-height:50%;margin-left:20px;"><strong>&nbsp;来样处理：</strong></p>
+		<table class= 'gridtable' style="margin-left:20px;">
+			<tr>
+				<th style="width:80px;">确认编号</th>
+				<th style="width:220px;">企业名称</th>
+				<th style="width:170px;">来样日期</th>
+				<th style="width:50px;">已用数量</th>
+				<th style="width:50px;">成功数量</th>
+				<th style="width:30px;">确认</th>
+			</tr>
+			{% for value in unfinished_list %}
+				<tr>
+					<form action="#" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<td><input id="SN" name="SN" type="text" readonly = “readonly” value="{{ value.SN }}-{{ value.Times}}"></input></td>
+						<td><input id="Name" name="Name" type="text" readonly = “readonly” value="{{ value.CompanyName }}"></input></td>
+						<td><input id=="Date" name="Date" type="text" readonly = “readonly” value="{{ value.GiveDate }}"></input></td>
+						<td><input id="used" name="used" type="number"></td>
+						<td><input id="sucess" name="sucess" type="number"></input></td>
+						<td><input type="submit" type="submit" name="Nums_update" value="更新"></input></td>
+					</form>
+				</tr>
+			{% endfor %}
+	</table>
+</div>
+<div id="attention">
+	{{attention|safe}}
+</div>
+</body>
+</html>

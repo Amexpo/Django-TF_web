@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+  table.gridtable {
+      font-family: verdana,arial,sans-serif;
+      font-size:14px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+ }
+ table.gridtable th {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #dedede;
+ }
+ table.gridtable td {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #ffffff;
+</style>
+</head>
+<body bgcolor='#F5F5F5'>
+<div style="height:700px;width:870px;">
+	<p style="font-size:15px;line-height:50%;"><strong>&nbsp;企业列表：（查找按Ctrl+F）</strong></p>
+	<table class= 'gridtable'>
+		<tr>
+			<th align="center" style="width:60px;">证书编号</th>
+			<th align="center" style="width:220px;">企业名称</th>
+			<th align="center" style="width:90px;">办理日期</th>
+			<th align="center" style="width:50px;">联系人</th>
+			<th align="center" style="width:80px;">联系方式</th>
+			<th align="center" style="width:240px;">地址</th>
+		</tr>
+	{% for value in info_table %}
+		<tr>
+			<td align="center">{{ value.SN }}</td>
+			<td>{{ value.CompanyName }}</td>
+			<td align="center">{{ value.time }}</td>
+			<td align="center">{{ value.Contactor }}</td>
+			<td align="center">{{ value.ContactTel }}</td>
+			<td>{{ value.CompanyAddress}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</div>
+</body>
+</html>

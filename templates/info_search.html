@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+{% load staticfiles %}
+<link rel="stylesheet" href="/static/css/style.css" media="screen" type="text/css" />
+<style type="text/css">
+  table.gridtable {
+      font-family: verdana,arial,sans-serif;
+      font-size:14px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+ }
+ table.gridtable th {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #dedede;
+ }
+ table.gridtable td {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #ffffff;
+ }
+table{
+	margin top: 20px;
+	border-collapse: collapse;
+	margin: 0 auto;
+	font-size:18px;
+	}
+tr{
+	border-bottom: 1px solid black;
+	}
+</style>
+<script language="javascript"> 
+function load_home() {
+ document.getElementById("div_print").innerHTML = '<iframe id="frame1" src="通知书.html" width="800px" height="1000px" frameborder="0"></iframe>';
+   }
+function printdiv(printpage){
+	var headstr = "<html><head><title></title></head><body>";
+	var footstr = "</body>";
+	var newstr = document.all.item(printpage).innerHTML;
+	var oldstr = document.body.innerHTML;
+	document.body.innerHTML = headstr+newstr+footstr;
+	window.print(); 
+	document.body.innerHTML = oldstr;
+	return false;
+	}
+</script>
+</head>
+<body bgcolor='#F5F5F5'>
+	<div>
+		<form method="post" id="searchform" action="#" style="margin-top:20px;">
+			{% csrf_token %}
+			<input type="search" style="width:250px;height:30px;font-size:14px;margin-left:20px;" name="info_search"  AUTOCOMPLETE="off"  placeholder="输入企业名称.." required>&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="submit" style="width:80px;height:30px;" name="search_co_items" ><strong>来样记录</strong></button>&nbsp;&nbsp;
+			<button type="submit" style="width:80px;height:30px;" name="search_co_info" ><strong>企业信息</strong></button>
+		</form>
+	</div>
+	<div style="margin:10px;margin-top:20px;">
+		{{table.bt|safe}}
+		{{table.code|safe}}
+	</div>
+</body>
+</html>

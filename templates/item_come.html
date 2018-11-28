@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+  table.gridtable {
+      font-family: verdana,arial,sans-serif;
+      font-size:14px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+ }
+ table.gridtable th {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #dedede;
+ }
+ table.gridtable td {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #ffffff;
+ }
+</style>
+</head>
+<body bgcolor='#F5F5F5'>
+	<p style="font-size:15px;line-height:50%;margin-left:20px;"><strong>&nbsp;来样列表：</strong></p>
+	<table class= 'gridtable' style="margin-left:20px;">
+		<tr>
+			<th style="width:100px;">确认编号</th>
+			<th style="width:230px;">企业名称</th>
+			<th>来样日期</th>
+			<th>样品<br>数量</th>
+			<th colspan="2">状态</th>
+			<th  style="width:150px;">备注</th>
+		</tr>
+	{% for value in info_table %}
+		<tr>
+			<td align="center">{{ value.serial }}</td>
+			<td >{{ value.CompanyName }}</td>
+			<td align="center">{{ value.time }}</td>
+			{{value.amount|safe}}
+			{{value.st|safe}}
+			{{value.Sendstatus|safe}}
+			<td align="center">{{value.SendSN}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</body>
+</html>
