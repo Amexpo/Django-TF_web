@@ -4,14 +4,31 @@
 """
 
 from django.shortcuts import render
+from db.models import label
+from db.models import check
 from db.models import cer_company
 from db.models import serial
 from db.models import irm_copy
+from db.models import Items
+from db.models import barcodeDJ_company,barcodeDJ_single
+from db.models import label_default
 from django.db import connection, transaction
 import datetime,time
+import math
+from django.http import HttpResponse
+from django.shortcuts import render
+from elaphe.pdf417 import Pdf417 
+from PIL import Image,ImageDraw,ImageFont 
+import io
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+import json
 
-################################################################################## db_in ######################################################################################################
+################################################################################################################################################################################
+########################################################################## 条码符合性确认 #######################################################################################
+################################################################################################################################################################################
 
+# 信息录入
 def db_in(request):
     db_ctx={}
     if request.POST:
@@ -45,7 +62,7 @@ def db_in(request):
             item_name = request.POST['item_name']
             item_ean = request.POST['item_ean']
             for_count=[]
-            search_list = cer_company.objects.filter(CompanyName__contains=item_name,SN__contains=item_sn,EAN__contains=item_ean)
+            search_list = cer_company.objects.filter(CompanyName__contains=item_name,SN__contains=item_sn)
             for items in search_list:
                 for_count.append(items.CompanyName)
             if len(set(for_count)) != 1:
@@ -93,9 +110,9 @@ def db_in(request):
                         db_ctx['update']='添加数据成功。</br>企业名称：'+insert_CompanyName+'</br>目前来样次数：'+str(insert_Times)         
                 except BaseException as error2:
                     db_ctx['update']='Error:'+str(error2)
-    return render(request, "db_in.html",db_ctx)
+    return render(request, "TF/db_in.html",db_ctx)
 
-################################################################################ co_print ####################################################################################################
+# 信息打印
 
 def co_print(request):
     ctx ={}
@@ -154,7 +171,6 @@ def co_print(request):
             c_eancode = request.POST['c_eancode']
             c_Times = request.POST['c_Times']
             c_Licence = request.POST['c_Licence']
-        
             ctx['rlt'] ='<div id="标题" style="text-align:center"><br><h1>使用商品条码符合性确认登记表通知书</h1></div>	<div id="信息"><HR align=center width=600 SIZE=1><p align="left" style="font-size:22px;line-height:130%;word-break:break-all">'\
                         '企业名称：<strong>'+c_name+'</strong></p><p align="left" style="font-size:22px;line-height:130%;word-break:break-all;text-indent:-5.5em;margin-left: 5.5em;">'\
                         '地&ensp;&ensp;&ensp;&ensp;址：<strong>'+c_address+'</strong></p>'\
@@ -167,7 +183,6 @@ def co_print(request):
                         '</li><li style="font-size:20px;line-height:200%">本备案只对附表中NO:商品条码的合法性进行确认，产品标签标识应按国家相关法律法规和标准执行。'\
                         '</li><li style="font-size:20px;line-height:200%">备案信息若有变更，请贵企业及时到所在地的编码分支机构重办理备案变更手续。</li></ol>'\
                         '</div><div id="结尾" style="text-align:center"><HR align=center width=650 SIZE=1><h4>中 国 物 品 编 码 中 心 深 圳 分 中 心 制</h4><br></div>'
-
             ctx['c_num']= c_num
             ctx['c_name']= c_name
             ctx['c_address']=c_address
@@ -210,14 +225,14 @@ def co_print(request):
                 month = ''
                 day = ''
             ctx['c_num'] = c_num
-            ctx['c_name']= c_name
-            ctx['c_address']=c_address
-            ctx['c_used']=c_used
-            ctx['c_left']=c_left
-            ctx['c_suc']= c_suc
-            ctx['year']=year
-            ctx['month']=month
-            ctx['day']=day
+            ctx['c_name'] = c_name
+            ctx['c_address'] = c_address
+            ctx['c_used'] = c_used
+            ctx['c_left'] = c_left
+            ctx['c_suc'] = c_suc
+            ctx['year'] = year
+            ctx['month'] = month
+            ctx['day'] = day
             ctx['c_eancode'] = c_eancode
             ctx['c_Times'] = c_Times
             ctx['c_Licence'] = c_Licence                     #submit后传递input的value回去（企业办理信息表）
@@ -237,20 +252,20 @@ def co_print(request):
             c_Licence = request.POST['c_Licence']
             ctx['c_num'] = c_num
             ctx['c_name']= c_name
-            ctx['c_address']=c_address
-            ctx['c_used']=c_used
-            ctx['c_left']=c_left
-            ctx['c_suc']= c_suc
-            ctx['year']=year
-            ctx['month']=month
-            ctx['day']=day
+            ctx['c_address'] = c_address
+            ctx['c_used'] = c_used
+            ctx['c_left'] = c_left
+            ctx['c_suc'] = c_suc
+            ctx['year'] = year
+            ctx['month'] = month
+            ctx['day'] = day
             ctx['c_eancode'] = c_eancode
             ctx['c_Times'] = c_Times
             ctx['c_Licence'] = c_Licence 
             
             ctx['rlt'] = '<div style="margin-top:20px;">'\
-                         '<span style="line-height:280%;margin-left:180px;font-size:16px;">'+c_name+'</span>'\
-                         '<br><span style="line-height:280%;margin-left:180px;font-size:16px;">'+c_num+'</span>'\
+                         '<span style="line-height:280%;margin-left:180px;font-size:16px;">'+c_num+'</span>'\
+                         '<br><span style="line-height:280%;margin-left:180px;font-size:16px;">'+c_name+'</span>'\
                          '<br><span style="line-height:280%;margin-left:180px;font-size:16px;">统一社会信用代码：'+c_Licence+'</span>'\
                          '</div>'
                          
@@ -268,92 +283,156 @@ def co_print(request):
             c_Times = request.POST['c_Times']
             c_Licence = request.POST['c_Licence']
             ctx['c_num'] = c_num
-            ctx['c_name']= c_name
-            ctx['c_address']=c_address
-            ctx['c_used']=c_used
-            ctx['c_left']=c_left
-            ctx['c_suc']= c_suc
-            ctx['year']=year
-            ctx['month']=month
-            ctx['day']=day
+            ctx['c_name'] = c_name
+            ctx['c_address'] = c_address
+            ctx['c_used'] = c_used
+            ctx['c_left'] = c_left
+            ctx['c_suc'] = c_suc
+            ctx['year'] = year
+            ctx['month'] = month
+            ctx['day'] = day
             ctx['c_eancode'] = c_eancode
             ctx['c_Times'] = c_Times
             ctx['c_Licence'] = c_Licence 
             try:
-                ctx['rlt'] = '<table class="gridtable" style="margin-left:-15px;margin-top:237px;width:850;">'
-                empty_tr='<tr>'\
-                         '<td style="width:37px;height:36.4px;" align="right"></td>'\
-                         '<td style="width:130px;height:36.4px;" align="center"></td>'\
-                         '<td style="width:81px;height:36.4px;" align="center"></td>'\
-                         '<td style="width:85px;height:36.4px;" align="center"></td>'\
-                         '<td style="width:298px;height:36.4px;" align="center"></td>'\
-                         '<td style="width:129px;height:36.4px;" align="center"></td>'\
-                         '<td style="width:80px;height:36.4px;" align="center"></td>'\
-                         '</tr>'
-                ctx['rlt']+=empty_tr * (int(c_Times)-1)
-                ctx['rlt']+='<tr>'\
-                            '<td style="width:37px;height:36.4px;" align="right">'+c_Times+'&nbsp;</td>'\
-                            '<td style="width:130px;height:36.4px;" align="center">'+c_num+'-'+c_Times+'</td>'\
-                            '<td style="width:81px;height:36.4px;" align="center">'+year+'.'+month+'.'+day+'</td>'\
-                            '<td style="width:85px;height:36.4px;" align="center">'+c_suc+'</td>'\
-                            '<td style="width:298px;height:36.4px;" align="center">与系统成员证书有效期一致</td>'\
-                            '<td style="width:129px;height:36.4px;" align="center">薛瑶</td>'\
-                            '<td style="width:80px;height:36.4px;" align="center">余'+c_left+'条</td>'\
-                            '</tr>'
+                if (math.ceil(int(c_Times)/11))%2==1:
+                    try:
+                        ctx['rlt'] = '<table class="gridtable" style="margin-left:-15px;margin-top:237px;width:850;">'
+                        empty_tr='<tr>'\
+                                 '<td style="width:37px;height:36.4px;" align="right"></td>'\
+                                 '<td style="width:130px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:81px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:85px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:298px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:129px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:80px;height:36.4px;" align="center"></td>'\
+                                 '</tr>'
+                        #ctx['rlt']+=empty_tr * (int(c_Times)-1)
+                        ctx['rlt']+=empty_tr *(int(c_Times)-1-(math.ceil(int(c_Times)/11)-1)*11)
+                        
+                        ctx['rlt']+='<tr>'\
+                                    '<td style="width:37px;height:36.4px;" align="right"><strong>'+c_Times+'&nbsp;</strong></td>'\
+                                    '<td style="width:130px;height:36.4px;" align="center"><strong>'+c_num+'-'+c_Times+'</strong></td>'\
+                                    '<td style="width:81px;height:36.4px;" align="center"><strong>'+year+'.'+month+'.'+day+'</strong></td>'\
+                                    '<td style="width:85px;height:36.4px;" align="center"><strong>'+c_suc+'</strong></td>'\
+                                    '<td style="width:298px;height:36.4px;" align="center"><strong>与系统成员证书有效期一致</strong></td>'\
+                                    '<td style="width:129px;height:36.4px;" align="center"><strong>薛瑶</strong></td>'\
+                                    '<td style="width:80px;height:36.4px;" align="center"><strong>余'+c_left+'条</strong></td>'\
+                                    '</tr>'
+                    except:
+                          pass
+    
+                elif (math.ceil(int(c_Times)/11))%2==0:
+                    try:
+                        ctx['rlt'] = '<table class="gridtable" style="margin-left:-15px;margin-top:215px;width:850;">'
+                        empty_tr='<tr>'\
+                                 '<td style="width:37px;height:36.4px;" align="right"></td>'\
+                                 '<td style="width:130px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:81px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:85px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:298px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:129px;height:36.4px;" align="center"></td>'\
+                                 '<td style="width:80px;height:36.4px;" align="center"></td>'\
+                                 '</tr>'
+                        ctx['rlt']+=empty_tr *(int(c_Times)-1-(math.ceil(int(c_Times)/11)-1)*11)
+                        ctx['rlt']+='<tr>'\
+                                    '<td style="width:37px;height:36.4px;" align="right"><strong>'+c_Times+'&nbsp;</strong></td>'\
+                                    '<td style="width:130px;height:36.4px;" align="center"><strong>'+c_num+'-'+c_Times+'</strong></td>'\
+                                    '<td style="width:81px;height:36.4px;" align="center"><strong>'+year+'.'+month+'.'+day+'</strong></td>'\
+                                    '<td style="width:85px;height:36.4px;" align="center"><strong>'+c_suc+'</strong></td>'\
+                                    '<td style="width:298px;height:36.4px;" align="center"><strong>与系统成员证书有效期一致</strong></td>'\
+                                    '<td style="width:129px;height:36.4px;" align="center"><strong>薛瑶</strong></td>'\
+                                    '<td style="width:80px;height:36.4px;" align="center"><strong>余'+c_left+'条</strong></td>'\
+                                    '</tr>'
+                    except:
+                          pass
             except:
                 pass
+
+        elif 'ItemCard' in request.POST:
+            c_num = request.POST['c_num']                     #获取input的内容
+            c_name = request.POST['c_name']
+            c_address = request.POST['c_address']
+            c_used = request.POST['c_used']
+            c_left = request.POST['c_left']
+            c_suc = request.POST['c_suc']
+            year = request.POST['year']
+            month = request.POST['month']
+            day = request.POST['day']
+            c_eancode = request.POST['c_eancode']
+            c_Times = request.POST['c_Times']
+            c_Licence = request.POST['c_Licence']
+            ctx['c_num'] = c_num
+            ctx['c_name'] = c_name
+            ctx['c_address'] = c_address
+            ctx['c_used'] =c_used
+            ctx['c_left'] =c_left
+            ctx['c_suc'] = c_suc
+            ctx['year'] = year
+            ctx['month'] = month
+            ctx['day'] = day
+            ctx['c_eancode'] = c_eancode
+            ctx['c_Times'] = c_Times
+            ctx['c_Licence'] = c_Licence
+            try:
+                db_info_get= cer_company.objects.get(CompanyName=c_name,Times=c_Times)
+            except:
+                pass
+            try:
+                c_IC = db_info_get.ItemManageNums
+            except:
+                c_IC = '/'
+            ctx['rlt'] = '<table border="1" bordercolor="black" cellspacing="0" style="margin-left:76px;margin-top:-7px;width:260px;">'\
+                         '<tr><td style="line-height:150%;width:100px;height:25px;text-align:center;">样品管理编号</td>'\
+                         '<td style="line-height:150%;width:150px;height:25px;text-align:center;"><strong>'+str(c_IC)+'</strong></td></tr>'\
+                         '<tr><td style="line-height:150%;width:100px;height:25px;text-align:center;">确认编号</td>'\
+                         '<td style="line-height:150%;width:150px;height:25px;text-align:center;">'+c_num+'-'+c_Times+'</td></tr>'\
+                         '<tr><td style="line-height:150%;width:100px;height:25px;text-align:center;">来样日期</td>'\
+                         '<td style="line-height:150%;width:150px;height:25px;text-align:center;">'+year+'年'+month+'月'+day+'日'+'</td></tr>'\
+                         '<tr><td style="line-height:150%;width:100px;height:25px;text-align:center;">成功数量</td>'\
+                         '<td style="line-height:150%;width:150px;height:25px;text-align:center;">'+c_suc+'</td>'
     else:
         pass
-    
-    
-    
-    return render(request, "print.html", {'ctx':ctx,
+    return render(request, "TF/print.html", {'ctx':ctx,
                                           'qyxx':qyxx,
                                           })
 
-################################################################################## co_info ######################################################################################################
-
+# 企业信息
 def co_info(request):
     ctx={}
     ctx['sum'] = len(cer_company.objects.filter(Times = 0))
     ctx['status']= len(cer_company.objects.filter(status = 0, Times__gt = 0))
     ctx['unsend']= len(cer_company.objects.filter(status = 1, Times__gt = 0, Sendstatus = 0))
-    return render(request, "co_info.html",{'ctx':ctx
+    return render(request, "TF/co_info.html",{'ctx':ctx
                                            })
 
-################################################################################## item_info ######################################################################################################
+# 来样查询
 
 def item_info(request):
     ctx={}
     ctx['sum'] = len(cer_company.objects.filter(Times = 0))
-    ctx['status']= len(cer_company.objects.filter(status = 0, Times__gt = 0))
-    ctx['unsend']= len(cer_company.objects.filter(status = 1, Times__gt = 0, Sendstatus = 0))
-    return render(request, "item_info.html",{'ctx':ctx
+    ctx['status'] = len(cer_company.objects.filter(status = 0, Times__gt = 0))
+    ctx['unsend'] = len(cer_company.objects.filter(status = 1, Times__gt = 0, Sendstatus = 0))
+    return render(request, "TF/item_info.html",{'ctx':ctx
                                            })    
 
-############################################################################### 企业一览表 ###################################################################################################
+# 企业信息/企业列表
 
 def all_co(request):
-
-    ####################################################################
     co_list = cer_company.objects.filter(Times = 0).order_by('-SN')
-    ####################################################################
     list_copy=co_list[:]
     info_table=[]
     for value in list_copy:
         value.time = datetime.date.isoformat(value.RecDate)
         info_table.append(value)
-    ###################################################################
-    return render(request, "all_co.html",{'info_table':info_table,
+    return render(request, "TF/all_co.html",{'info_table':info_table,
                                           'co_list':co_list,
                                            })
 
-################################################################################# 来样列表 ###################################################################################################
+# 来样查询/来样列表
 
 def item_come(request):
-    ####################################################################
     co_list = cer_company.objects.filter(Times__gt = 0).order_by('-GiveDate')
-    ####################################################################
     list_copy=co_list[:]
     info_table=[]
     for value in list_copy:
@@ -373,12 +452,11 @@ def item_come(request):
         else:
             value.Sendstatus = '<td bgcolor align="center" style="color:green;">已发</td>'
         info_table.append(value)
-    ###################################################################
-    return render(request, "item_come.html",{'info_table':info_table,
+    return render(request, "TF/item_come.html",{'info_table':info_table,
                                           'co_list':co_list,
                                            })
 
-################################################################################# 信息查询 ###################################################################################################
+# 企业信息/信息查询
 
 def info_search(request):
     table={}
@@ -403,47 +481,58 @@ def info_search(request):
                         table['code']+='<td bgcolor style="color:red;" align="center">未完成</td>'
                     else:
                         table['code']+='<td bgcolor style="color:green;" align="center">已完成</td>'
-                    table['code']+='<td align="center">'+items.remarks+'</td></tr>'
+                    try:
+                        table['code']+='<td align="center">'+items.remarks+items.SendSN+'</td></tr>'
+                    except:
+                        table['code']+='<td align="center"></td></tr>'
             table['code']+="</table><br>"
         elif 'search_co_info' in request.POST:
 
             table['bt'] = "<div id='bt1'><a href='#' class='button next' onClick='printdiv("\
                           +'"div_print"'\
                           +");'>&emsp;打&emsp;&emsp;印&emsp;&emsp;</a></div>"
-
             table['code'] = '<div id="div_print" style="width: 650px;margin: 0 auto;background:white;padding:20px;">		<p align="right" style="line-height:20%;font-family:Times;">NO:</p>	<hr color = black size = 1>		<h1 style="text-align:center;letter-spacing:10px;">使用境内注册商品条码</br>符合性确认登记表</h1>		<p>（申办企业盖章）</p>		<h2 style="text-align:center">企业填写部分</h2>	<table border="1" bordercolor="black" cellspacing="0" >		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">企业名称</td>			<td style="font-size:16px;width:250px;"></td>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">营业执照</br>注册号</td>			<td style="font-size:16px;;width:250px;"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">地&emsp;址</td>			<td style="font-size:16px;;width:250px;"></td>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">邮政编码</td>			<td style="font-size:16px;;width:250px;"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">法&emsp;定<br>代表人</td>			<td style="font-size:16px;;width:250px;"></td>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">联系方式</td>			<td style="font-size:16px;;width:250px;"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">联系人</td>			<td style="font-size:16px;;width:250px;"></td>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">联系方式</td>			<td style="font-size:16px;;width:250px;"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">电子邮箱</td>			<td style="font-size:16px;;width:250px;"></td>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">企业网址</td>			<td style="font-size:16px;;width:250px;"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">备&emsp;&emsp;注</td>			<td colspan="3"></td>		</tr>	</table>		<h2 style="text-align:center">审核部门填写部分</h2>	<table border="1" bordercolor="black" cellspacing="0" >		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">备案意见</td>			<td colspan="3"></td>		</tr>		<tr>			<td style="line-height:150%;width:100px;height:60px;text-align:center;">审&emsp;核</br>日&emsp;期</td>			<td></td>			<td style="line-height:150%;width:100px;height:80px;text-align:center;">审核部</br>门盖章</td>			<td></td>		</tr>	</table>		<p><strong>商品目录表：</strong>见后页附表《商品条码目录表》</p>		<p style="font-size:20px;text-align:center">中国物品编码中心深圳分中心</p>	</div>'
-    return render(request, "info_search.html",{'table':table,
+    return render(request, "TF/info_search.html",{'table':table,
                                            })
 
-    
-#<td align='center'>"+items.CompanyName+"</td>
-################################################################################# 信息查询 ###################################################################################################
+# 来样查询/来样处理
 def update_nums(request):
     unfinished_list = cer_company.objects.filter(Times__gt = 0, status = 0 ).order_by('GiveDate')
     attention =""
     if request.POST:
-        try:
-            SN_Times = request.POST['SN']
-            Name = request.POST['Name']
-            used = request.POST['used']
-            sucess = request.POST['sucess']
-            target_SN = SN_Times.split('-')[0]
-            target_Times = SN_Times.split('-')[1]
-            rest = int(cer_company.objects.filter( SN = target_SN, Times = target_Times)[0].RestAmount) - int(request.POST['used'])
-            if len(cer_company.objects.filter( SN = target_SN, Times__lt = target_Times, status = 0 )) > 0 :
-                attention ="<hr></hr><p>错误：请处理先前来样。</p>"
+        SN_Times = request.POST['SN']
+        Name = request.POST['Name']
+        used = request.POST['used']
+        sucess = request.POST['sucess']
+        target_SN = SN_Times.split('-')[0]
+        target_Times = SN_Times.split('-')[1]
+        rest = int(cer_company.objects.filter( SN = target_SN, Times = target_Times)[0].RestAmount) - int(request.POST['used'])
+        if len(cer_company.objects.filter( SN = target_SN, Times__lt = target_Times, status = 0 )) > 0 :
+            attention ="<hr></hr><p>错误：请处理先前来样。</p>"
+        else:
+            if int(rest) < 0:
+                attention ="<hr></hr><p>该企业剩余数量不足，请增加委托数量后尝试。</p>"
             else:
-                if rest < 0:
-                    attention ="<hr></hr><p>该企业剩余数量不足，请增加委托数量后尝试。</p>"
+                if int(sucess) > 0:
+                    ser = serial.objects.get(id='3')
+                    nowtime = datetime.datetime.now()
+                    if (nowtime.year*12) > (ser.time.year*12):
+                        sn = 1
+                    else:
+                        sn = ser.sn + 1
+                    ser.sn = sn
+                    ser.time = datetime.datetime.now()
+                    ser.save()
+                    createIC = str(nowtime.year)+str((str(sn)).zfill(5))
+                    cer_company.objects.filter( SN = target_SN, Times = target_Times).update(UsedAmount=used,SuccessAmount=sucess,status = 1, RestAmount = rest, ItemManageNums=createIC)
+                    cer_company.objects.filter( SN = target_SN, Times__gt = target_Times).update(RestAmount = rest)
                 else:
                     cer_company.objects.filter( SN = target_SN, Times = target_Times).update(UsedAmount=used,SuccessAmount=sucess,status = 1, RestAmount = rest)
                     cer_company.objects.filter( SN = target_SN, Times__gt = target_Times).update(RestAmount = rest)
-        except:
-            pass
-    return render(request, "update_nums.html",{'unfinished_list':unfinished_list,
+    return render(request, "TF/update_nums.html",{'unfinished_list':unfinished_list,
                                                'attention':attention,
                                            })
-################################################################################# 信息查询 ###################################################################################################
+# 企业信息/企业变更
 def update_qy(request):
     feedback=''
     error=''
@@ -455,7 +544,6 @@ def update_qy(request):
         item_add = request.POST['item_add']
         co_lists =  cer_company.objects.filter(SN = sn_change)
         times = len(co_lists)
-
         if name_change !='':
             try:
                 cer_company.objects.filter(SN = sn_change, Times = 0).update(CompanyName=name_change)
@@ -463,7 +551,6 @@ def update_qy(request):
                 feedback+= '企业名称变更：'+name_change+'<br>'
             except BaseException as error1:
                 error+= '企业名称变更错误:'+str(error1)
-
         if contactor_change!='':
             try:
                 cer_company.objects.filter(SN = sn_change, Times = 0).update(Contactor=contactor_change)
@@ -492,17 +579,17 @@ def update_qy(request):
             cer_company.objects.filter(SN = sn_change, Times = (times-1)).update(remarks = newremark)
         except BaseException as error5:
             error+=str(error5)
-    return render(request, "update_qy.html",{'feedback':feedback,
+    return render(request, "TF/update_qy.html",{'feedback':feedback,
                                              'error':error,
                                            })
 
-###########################################################################################################
+# ？？？？
 def page1(request):
-    return render(request, "使用境内注册商品条码符合性确认登记表（新）.html")
+    return render(request, "TF/使用境内注册商品条码符合性确认登记表（新）.html")
 
-################################################################################## func ######################################################################################################
+# 其他功能
 def func(request):
-    if request.POST:    
+    if request.POST:
         '''
         from django.db import connection,transaction
         cursor = connection.cursor()
@@ -513,7 +600,7 @@ def func(request):
         for updatecompany in cer_lists:
             try:
                 x = irm_copy.objects.filter(firm_name = updatecompany.CompanyName)[0]
-                updatecompany.CompanyAddress = x.address
+                updatecompany.CompanyAddress = x.register_address
                 updatecompany.Postal = x.postcode
                 updatecompany.Licence = x.certificate_code
                 updatecompany.EAN = x.code
@@ -524,10 +611,9 @@ def func(request):
         sn2_update.time = datetime.datetime.now()
         sn2_update.sn = irm_copy.objects.last().F_id
         sn2_update.save()
-    return render(request, "functions.html")
+    return render(request, "TF/functions.html")
 
-###########################################################################################################
-
+# 来样查询/发证
 def update_send(request):
     unsend_list = cer_company.objects.filter(Times__gt = 0, status = 1, Sendstatus = 0 ).order_by('GiveDate')
     if request.POST:
@@ -540,5 +626,322 @@ def update_send(request):
             cer_company.objects.filter( SN = target_SN, Times = target_Times).update(Sendstatus = 1, SendDate =datetime.datetime.now(), SendSN = SendSN )
         except:
             pass
-    return render(request, "update_send.html",{'unsend_list':unsend_list,
+    return render(request, "TF/update_send.html",{'unsend_list':unsend_list,
                                            })
+
+# 来样查询/样品编号管理
+def ItemManageNums(request):
+    ManageNums = cer_company.objects.filter(ItemManageNums__isnull=False).order_by('ItemManageNums')
+    return render(request,"TF/ItemManageNums.html",{'ManageNums':ManageNums,
+                                                 })
+
+# 衍生（改进建议单）主界面
+def rpm(request):
+    return render(request,"TF/rpm.html")
+
+# 条码符合性确认改进建议单（模板）
+def report(request):
+    return render(request,"TF/Report.html")
+
+# 衍生（改进建议单）来样列表
+def CPList(request):
+    CPList = cer_company.objects.filter(Times__gt = 0).order_by('-GiveDate')
+    if request.method=='GET':
+        if 'searchcontent' in request.GET: 
+            CPList1 = cer_company.objects.filter(SN__contains = request.GET['searchcontent'],Times__gt = 0).order_by('-GiveDate')
+            CPList2 = cer_company.objects.filter(CompanyName__contains = request.GET['searchcontent'],Times__gt = 0).order_by('-GiveDate')
+            CPList = CPList1|CPList2
+    return render(request, "TF/CPList.html",{'CPList':CPList,
+                                           })
+
+# 衍生（改进建议单）列表
+def item(request):
+    itemlist=[]
+    if request.method=='GET':
+        SN = request.GET.get('SN',default=' ')
+        Times = request.GET.get('Times',default=' ')
+    try:
+        itemlist = Items.objects.filter(SN = SN , Times = Times)
+    except:
+        pass
+    return render(request,"TF/item.html",{'itemlist':itemlist,
+                                       'SN':SN,
+                                       'Times':Times,
+                                       })
+################################################################################################################################################################################
+############################################################################ 电子胶片部分 #######################################################################################
+################################################################################################################################################################################
+    
+def barcodeDJ(request):
+    ctx1={}
+    ctx2={}
+    if request.POST:
+        
+        if 'create' in request.POST:
+            SN = request.POST['SN']
+            new_SN = request.POST['SN']+'DJ'
+            amount = request.POST['amount']
+            Time = datetime.datetime.now()
+            if len(SN) !=9:
+                ctx1['rlt'] = '请输入9位符合性确认证书号码。<br>标准格式范例：2019 01 001'
+            else:
+                barcodeDJ_company.objects.create(SN = new_SN ,RestAmount = amount, GiveDate = Time,blAmount = amount)
+                ctx1['rlt']='创建成功！<br>编号：'+new_SN+'<br>剩余：'+amount+'条'
+            ctx1['SN']=SN
+            ctx1['amount']=amount
+            
+        if 'update' in request.POST:
+            SN = request.POST['SN']
+            DJ_SN = SN+'DJ'
+            contactEmail = request.POST['contactEmail']
+            wtAmount = request.POST['wtAmount']
+            companyName = request.POST['companyName']
+            wtDate = datetime.datetime.now()
+            companyName_list = cer_company.objects.filter(CompanyName__contains=companyName,Times=0)
+            if len(barcodeDJ_company.objects.filter(SN__contains = DJ_SN))==1:
+                Times = len(barcodeDJ_single.objects.filter(SN = DJ_SN))+1
+                RestAmount = int(barcodeDJ_company.objects.filter(SN = DJ_SN)[0].RestAmount) - int(wtAmount)
+                if RestAmount<0:
+                    ctx2['rlt']='该企业剩余数量不足，'+'余'+str(barcodeDJ_company.objects.filter(SN = DJ_SN)[0].RestAmount)+'条。'
+                else:
+                    barcodeDJ_company.objects.filter(SN = DJ_SN).update(RestAmount = RestAmount)
+                    barcodeDJ_single.objects.create(SN = DJ_SN ,wtDate = wtDate, wtAmount = wtAmount, contactEmail = contactEmail,Times = Times)
+                    ctx2['rlt']='成功！'
+            else:
+                if len(companyName_list)==0:
+                    ctx2['rlt']='该企业未办理条码电子菲林委托业务，请核对。'
+                elif len(companyName_list)==1:
+                    DJ_SN = cer_company.objects.filter(CompanyName__contains=companyName)[0].SN+'DJ'
+                    RestAmount = int(barcodeDJ_company.objects.filter(SN = DJ_SN)[0].RestAmount) - int(wtAmount)
+                    if RestAmount<0:
+                        ctx2['rlt']='该企业剩余数量不足，'+'该企业余'+str(barcodeDJ_company.objects.filter(SN = DJ_SN)[0].RestAmount)+'条。'
+                    else:
+                         barcodeDJ_company.objects.filter(SN = DJ_SN).update(RestAmount = RestAmount)
+                         Times = len(barcodeDJ_single.objects.filter(SN = DJ_SN))+1
+                         barcodeDJ_single.objects.create(SN = DJ_SN ,wtDate = wtDate, wtAmount = wtAmount, contactEmail = contactEmail,Times = Times)
+                         ctx2['rlt']='成功！'
+                else:#len(companyName_list)>1:
+                    ctx2['rlt']='存在多个查找内容:<br>'
+                    for value in companyName_list:
+                        ctx2['rlt']+=value.CompanyName+';<br>'
+
+            ctx2['SN'] = SN
+            ctx2['wtDate'] = wtDate
+            ctx2['contactEmail'] = contactEmail
+            ctx2['wtAmount'] = wtAmount
+            ctx2['companyName'] = companyName
+    return render(request,"barcodeDJ/barcodeDJ.html",{'ctx1':ctx1,
+                                                      'ctx2':ctx2,
+                                                     })
+
+def barcodeDJ_companyList(request):
+    companyList = barcodeDJ_company.objects.filter(SN__isnull=False)
+    companyList1 = companyList[:]
+    for value in companyList1:
+        value.date = datetime.date.isoformat(value.GiveDate)
+        try:
+            value.companyName = cer_company.objects.get(SN = value.SN[0:9],Times = 0).CompanyName
+        except:
+            value.companyName = '符合性确认系统未录入'
+        
+    return render(request,"barcodeDJ/companyList.html",{'companyList1':companyList1,
+                                                        })
+
+def barcodeDJ_consignList(request):
+    consignList = barcodeDJ_single.objects.filter(SN__isnull=False)
+    consignList1 = consignList[:]
+    for value in consignList1:
+        value.date = datetime.date.isoformat(value.wtDate)
+        try:
+            value.companyName = cer_company.objects.get(SN = value.SN[0:9],Times = 0).CompanyName
+        except:
+            value.companyName = '未录'
+    return render(request,"barcodeDJ/consignList.html",{'consignList1':consignList1,
+                                                        })
+    
+################################################################################################################################################################################
+############################################################################ 标签检验部分 #######################################################################################
+################################################################################################################################################################################
+
+# pdf417二维码依赖功能    
+def pdf417(request):
+    SN = request.GET.get('reportSN',default='byyangyanhao')
+    bc = Pdf417()
+    text = str(SN).upper()
+    img = bc.render(text, options=dict(columns=1,rows=10,eclevel=1,rowmult=1), scale=3) 
+    buf = io.BytesIO()  #缓存
+    img.save(buf, 'png')  #
+    return HttpResponse(buf.getvalue(), 'image/png')
+
+# 委托录入
+def label_consign(request):
+    checktype_list = check.objects.filter(id__isnull=False)
+    Descript = label_default.objects.get(id = 2).default
+    Instrument = label_default.objects.get(id = 1).default
+    checktype = ' '
+    if request.POST:
+        for i in range(1,2):
+            SampleName='SampleName'+str(i)
+            Spec='Spec'+str(i)
+            label.objects.create(SampleName = request.POST[SampleName],
+                                 Spec = request.POST[Spec],
+                                 checktype = request.POST['checktype'],
+                                 SN = '1111',
+                                 CompanyName = request.POST['CompanyName'],
+                                 Address = request.POST['Address'],
+                                 ContactMan = request.POST['ContactMan'],
+                                 ContactTel = request.POST['ContactTel']
+                                 )
+    return render(request,'label/consign.html',{'checktype_list':checktype_list,
+                                                })
+
+# 报告编辑
+def label_edit(request):
+    return render(request,'label/edit.html')
+
+# 报告查看
+def label_check(request):
+    return render(request,'label/check.html')
+
+# 报告编辑/来样列表
+def label_edit_list(request):
+    try:
+        if request.method=='GET':
+            label_list = label.objects.filter(checktype = request.GET['checktype'])
+    except:
+        label_list = label.objects.filter(SN__isnull=False)   
+    return render(request,'label/edit_list.html',{'label_list':label_list,
+                                             })
+
+# 报告查看/来样列表
+def label_check_list(request):
+    try:
+        if request.method=='GET':
+            label_list = label.objects.filter(checktype = request.GET['checktype'],isdone=True)
+    except:
+        label_list = label.objects.filter(SN__isnull=False,isdone=True)        
+    return render(request,'label/check_list.html',{'label_list':label_list,
+                                             })
+
+# 信息打印
+def label_print(request):
+    ctx={}
+    if request.POST:
+        if 'labelpaper' in request.POST:
+            ctx['reportSN'] = request.POST['reportSN']
+            ctx['itemname'] = request.POST['itemname']
+            ctx['spec'] = request.POST['spec']
+            ctx['companyname'] = request.POST['companyname']
+            ctx['rlt'] = '<table border="1" bordercolor="black" cellspacing="0" style="margin-left:76px;margin-top:-8px;width:260px;">'\
+                              '<tr><td style="line-height:150%;width:280px;height:25px;text-indent:0.5em;"  colspan="4">报告编号:'+str(ctx['reportSN'])+'</td>'\
+                              '</tr><tr>	<td style="line-height:150%;width:80px;height:35px;text-align:center;">样品状态</td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;">待检</td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;">在检</td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;">审核</td>'\
+                              '</tr><tr>	<td style="line-height:150%;width:80px;height:35px;text-align:center;">完成情况</td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '</tr><tr>	<td style="line-height:150%;width:80px;height:35px;text-align:center;">执行人</td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '<td style="line-height:150%;width:60px;height:35px;text-align:center;"></td>'\
+                              '</tr></table>'
+        elif 'firstpage' in request.POST:
+            ctx['reportSN'] = request.POST['reportSN']
+            ctx['itemname'] = request.POST['itemname']
+            ctx['spec'] = request.POST['spec']
+            ctx['companyname'] = request.POST['companyname']
+            ctx['rlt'] = '<div id="a"><table cellspacing="0" style="margin:0 auto;"><tr><td style="width:150px;text-align:center;height:30px;font-size:18px;">样品名称：</td>'\
+                         '<td style="width:400px;text-align:center;height:30px;font-size:17px;border-bottom:1px solid #000">'+ctx['itemname']+'</td>'\
+                         '</tr><tr><td style="height:20px;"></td><td></td></tr><tr><td style="width:150px;text-align:center;height:30px;font-size:18px;">规格型号：</td>'\
+		                  '<td style="width:400px;text-align:center;height:30px;font-size:17px;border-bottom:1px solid #000">'+ctx['spec']+'</td>'\
+                         '</tr><tr><td style="height:20px;"></td><td></td></tr><tr><td style="width:150px;text-align:center;height:30px;font-size:18px;">委托单位：</td>'\
+		                  '<td style="width:400px;text-align:center;height:30px;font-size:17px;border-bottom:1px solid #000">'+ctx['companyname']+'</td>'\
+                         '</tr><tr><td style="height:20px;"></td><td></td></tr><tr><td style="width:150px;text-align:center;height:30px;font-size:18px;">检验类别：</td>'\
+		                  '<td style="width:400px;text-align:center;height:30px;font-size:17px;border-bottom:1px solid #000">委托检验</td></tr></table></div>'
+        elif 'pdf417' in request.POST:
+            ctx['reportSN'] = request.POST['reportSN']
+            ctx['itemname'] = request.POST['itemname']
+            ctx['spec'] = request.POST['spec']
+            ctx['companyname'] = request.POST['companyname']
+            bc = Pdf417() 
+            #text = str(ctx['reportSN']).upper() 
+            #img = bc.render(text, options=dict(columns=1,rows=10,eclevel=1,rowmult=1), scale=3) 
+            #buf = io.BytesIO()  #缓存
+            #img.save(buf, 'png')  #         
+            #return HttpResponse(buf.getvalue(), 'image/png')
+            ctx['rlt'] = '<a href="/label/img?reportSN='+ctx['reportSN']+'" download="pdf417"><img src = "/label/img?reportSN='+ctx['reportSN']+'" /></a>'
+    return render(request,"label/print.html",{'ctx':ctx
+                                         })
+
+# 功能
+def label_setting(request):
+    return render(request,'label/setting.html')
+
+# 报告编辑/来样列表/原始记录
+def label_edit_record(request): 
+    record = label.objects.get(SN__contains = request.GET['SN'])
+    if request.method=='GET':
+        record = label.objects.get(SN__contains = request.GET['SN'])
+        checktype = check.objects.get(id = request.GET['checktype'])
+    if request.POST:
+        SN = request.POST['SN']
+        CompanyName = request.POST['CompanyName']
+        SampleName = request.POST['SampleName']
+        Spec = request.POST['Spec']
+        Descript = request.POST['Descript']
+        Instrument = request.POST['Instrument']
+        Rule = request.POST['Rule']
+        h1 = request.POST['h1']
+        h2 = request.POST['h2']
+        h3 = request.POST['h3']
+        h4 = request.POST['h4']
+        h5 = request.POST['h5']
+        textarea1 = request.POST['textarea1']
+        textarea2 = request.POST['textarea2']
+        textarea3 = request.POST['textarea3']
+        textarea4 = request.POST['textarea4']
+        textarea5 = request.POST['textarea5']
+        textarea6 = request.POST['textarea6']
+        textarea7 = request.POST['textarea7']
+        textarea8 = request.POST['textarea8']
+        textarea9 = request.POST['textarea9']
+        textarea10 = request.POST['textarea10']
+        textarea11 = request.POST['textarea11']
+        textarea12 = request.POST['textarea12']
+        textarea13 = request.POST['textarea13']
+        textarea14 = request.POST['textarea14']
+        textarea15 = request.POST['textarea15']
+        label.objects.filter(SN = SN).update(
+                                             CompanyName = CompanyName,
+                                             SampleName = SampleName,
+                                             Spec = Spec,
+                                             Descript = Descript,
+                                             Instrument = Instrument,
+                                             Rule = Rule,
+                                             content1 = textarea1,
+                                             content2 = textarea2,
+                                             content3 = textarea3,
+                                             content4 = textarea4,
+                                             content5 = textarea5,
+                                             content6 = textarea6,
+                                             content7 = textarea7,
+                                             content8 = textarea8,
+                                             content9 = textarea9,
+                                             content10 = textarea10,
+                                             content11 = textarea11,
+                                             content12 = textarea12,
+                                             content13 = textarea13,
+                                             content14 = textarea14,
+                                             content15 = textarea15,
+                                             h1=h1,
+                                             h2=h2,
+                                             h3=h3,
+                                             h4=h4,
+                                             h5=h5
+                                             )
+        record = label.objects.get(SN = request.GET['SN'])
+    return render(request,'label/edit/record.html',{'record':record,
+                                                    'checktype':checktype,
+                                               })

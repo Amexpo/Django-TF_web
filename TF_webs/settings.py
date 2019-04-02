@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.contrib import admin
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -71,10 +72,10 @@ TEMPLATES = [
 DATABASES = {
     'default': {
          'ENGINE': 'sql_server.pyodbc',
-         'NAME': '*',
-         'USER': '*',
-         'PASSWORD': '*',
-         'HOST': '*',
+         'NAME': 'BarcodeCenterbuf',
+         'USER': 'Barcode',
+         'PASSWORD': 'Tm1303glxt',
+         'HOST': '10.204.169.33\mssqlserver1',
          'PORT': '1433',
          'OPTIONS': {
               'driver':'SQL Server Native Client 10.0',
@@ -111,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
