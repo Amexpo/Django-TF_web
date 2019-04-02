@@ -1,0 +1,209 @@
+<html>
+<head>
+<style type="text/css">
+summary{
+		outline:none;
+		}
+table{	margin:20px;
+		}
+.table1 td{
+			height:30px;
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.table2 td{
+			padding:10px;
+			height:30px;
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.table3 td{
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.table3 td{
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.table3 th{
+			padding:10px;
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.input1{
+		background-color:transparent;
+		border:0;
+		width:400px;
+		outline:none;
+		font-size:16px;
+		text-align:center;
+		font-family:"黑体";
+		}
+.input2{
+		background-color:transparent;
+		border:0;
+		width:40px;
+		outline:none;
+		font-size:16px;
+		text-align:center;
+		font-family:"黑体";
+		}
+textarea{
+		resize:none;
+		outline:none;
+		border:0;		
+		font-size:16px;
+		font-family:"黑体";
+		width:300px;
+		}
+</style>
+</header>
+<body>
+	<div style="width:700px;">
+	<h1 align=center>预包装食品标签检验原始记录</h1>
+	报告编号：201902-03040001<br>
+	检验类型：预报包装食品标签<br>
+	检验依据：GB 7718-2018《食品安全国家标准 预包装食品标签通则》<br>
+	仪器设备编号：数显卡尺 3086382<br><br>
+		<form method="POST" action=# target="id_iframe" enctype="multipart/form-data">
+		<details open>
+			<summary>一、基本信息</summary>
+				<table class="table1">
+					<tr><td style="width:150px;">客户名称</td"><td><input class="input1" name="customer" required></input></td>
+					<tr><td>样品名称</td><td><input class="input1" name="sample"  required></input></td>
+				</table>
+		</details>
+		<hr>
+		<details open>
+			<summary>二、资料验证</summary>
+				<table class="table2">
+					<tr><td>营业执照、代码证</td>
+						<td><input type="checkbox" name="check1"></td>
+						<td>生产许可证</td>
+						<td><input type="checkbox" name="check2"></td>
+						<td>委托加工备案</td>
+						<td><input type="checkbox" name="check3"></td>
+					</tr>
+					<tr><td>标准登记证</td>
+						<td><input type="checkbox" name="check4"></td>
+						<td>商品条码证</td>
+						<td><input type="checkbox" name="check5"></td>
+						<td>被委托方证件资料</td>
+						<td><input type="checkbox" name="check6"></td>
+					</tr>
+					<tr><td>企业标准文本</td>
+						<td><input type="checkbox" name="check7"></td>
+						<td>商标注册证</td>
+						<td><input type="checkbox" name="check8"></td>
+						<td>其它资料</td>
+						<td><input type="checkbox" name="check9"></td>
+					</tr>
+				</table>
+		</details><hr>
+		<details open>
+			<summary>三、检验结果</summary>
+				<table class="table3" style="width:650px;">
+					<tr>
+						<th style="width:50px;">序号</th>
+						<th style="width:100px;">检验项目</th>
+						<th style="width:300px;">检验结果</th>					
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>基本要求</td>
+						<td><textarea style="height:40px;" name="textarea1" required></textarea>
+						<table class="table4" style="margin:0 auto;width:300px;">
+							<tr><td colspan=5 style="border-top:1px solid #ccc;border-left:1px solid #ccc;">字符实测值（mm）</td></tr>
+							<tr><td style="height:20px;border-left:1px solid #ccc;"><input class="input2" name="h1" required></input></td>
+								<td><input class="input2" name="h2" required></input></td>
+								<td><input class="input2" name="h3" required></input></td>
+								<td><input class="input2" name="h4" required></input></td>
+								<td><input class="input2" name="h5" required></input></td>
+							</tr>
+						</table></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>食品名称</td>
+						<td><textarea style="height:100px;" name="textarea2" required></textarea></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>配料表</td>
+						<td><textarea style="height:100px;" name="textarea3" required></textarea></td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>配料的定量标示</td>
+						<td><textarea style="height:100px;" name="textarea4" required></textarea></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>净含量和规格</td>
+						<td><textarea style="height:100px;" name="textarea5" required></textarea></td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td>生产者、经销者的名称、<br>地址和联系方式</td>
+						<td><textarea style="height:100px;" name="textarea6" required></textarea></td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td>日期标示</td>
+						<td><textarea style="height:100px;" name="textarea7" required></textarea></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>贮存条件</td>
+						<td><textarea style="height:100px;" name="textarea8" required></textarea></td>
+					</tr>
+					<tr>
+						<td>9</td>
+						<td>食品生产许可证编号</td>
+						<td><textarea style="height:100px;" name="textarea9" required></textarea></td>
+					</tr>
+					<tr>
+						<td>10</td>
+						<td>产品标准代号</td>
+						<td><textarea style="height:100px;" name="textarea10" required></textarea></td>
+					</tr>
+					<tr>
+						<td>11</td>
+						<td>其他标示内容</td>
+						<td><textarea style="height:100px;" name="textarea11" required></textarea></td>
+					</tr>
+					<tr>
+						<td>12</td>
+						<td>非直接提供给消费者的<br>预包装食品标签标示内容</td>
+						<td><textarea style="height:100px;" name="textarea12" required></textarea></td>
+					</tr>
+					<tr>
+						<td>13</td>
+						<td>标示内容的豁免</td>
+						<td><textarea style="height:100px;" name="textarea13" required></textarea></td>
+					</tr>
+					<tr>
+						<td>14</td>
+						<td>推荐标示内容</td>
+						<td><textarea style="height:100px;" name="textarea14" required></textarea></td>
+					</tr>
+					<tr>
+						<td>15</td>
+						<td>其他</td>
+						<td><textarea style="height:100px;" name="textarea15" required></textarea></td>
+					</tr>
+				</table>
+			</details>
+			<hr>
+			<input type="submit" value="提交">
+		</form>
+	</div>
+	<iframe id="id_iframe" name="id_iframe" style="display: none;">
+	</iframe> 
+<body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+  table.gridtable {
+      font-family: verdana,arial,sans-serif;
+      font-size:14px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+	  margin:0px;
+ }
+ table.gridtable th {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #dedede;
+ }
+ table.gridtable td {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #ffffff;
+ }
+ .menu2 ul { margin:0px;
+			list-style:none;
+			padding:0px;
+            width:325px;
+			overflow:hidden; /*内容超出宽度时隐藏超出部分的内容 */
+            text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+            white-space:nowrap; /*不换行 */
+			}
+			
+.menu2 ul li {	line-height:25px;
+				width:325px;
+				background-image:white;}
+				.menu2 ul li a{ display:block;
+				text-decoration:none ; 
+				font-size:14px; 
+				line-height:30px; 
+				color:black }
+
+.menu2 ul li a:hover{
+				border:1px solid black;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #FFFFFF),
+				color-stop(1, #D1D1D1)
+				); color:black}
+</style>
+</head>
+<body bgcolor=white>
+<div class='menu2'>
+	<ul>
+	{% for value in CPList %}
+		<li><a href="item/?SN={{value.SN}}&Times={{value.Times}}" target= "div2">&nbsp;{{value.SN}}-{{value.Times}}&nbsp;{{value.CompanyName}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+</body>
+</html>

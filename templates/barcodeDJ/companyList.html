@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+  table.gridtable {
+      font-family: verdana,arial,sans-serif;
+      font-size:13px;
+      color:#333333;
+      border-width: 1px;
+      border-color: #666666;
+      border-collapse: collapse;
+ }
+ table.gridtable th {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: black;
+     background-color:#3A4953;
+	 color:white;
+	 font-weight: normal;
+ }
+ table.gridtable td {
+     border-width: 1px;
+     padding: 8px;
+     border-style: solid;
+     border-color: #666666;
+     background-color: #ffffff;
+ }
+ 
+</style>
+</head>
+<body>
+	<table class= 'gridtable'>
+		<tr>
+			<th style="width:110px;">委托编号</th>
+			<th style="width:230px;">企业名称</th>
+			<th style="width:90px;">办理日期</th>
+			<th style="width:60px;">办理数量</th>
+			<th style="width:60px;">剩余数量</th>
+		</tr>
+	{% for value in companyList1 %}
+		<tr>
+			<td align="center">{{value.SN }}</td>
+			<td>{{value.companyName}}</td>
+			<td align="center">{{value.date}}</td>
+			<td align="center">{{value.blAmount}}</td>
+			<td align="center">{{value.RestAmount}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+</body>
+</html>

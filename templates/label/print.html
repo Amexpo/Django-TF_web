@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>标签检验业务系统&emsp;Alpha&nbsp;1.0</title>
+{% load staticfiles %}
+<link rel="stylesheet" href="/static/css/style.css" media="screen" type="text/css" />
+<link rel="shortcut icon" href='/static/icoo.ico' />
+<style type="text/css">
+
+	#顶部 {	height:65px;
+			width:1050px;
+			margin:0 auto;
+			}
+	#顶目录 {
+			background:#0099CC; /* 设置背景色 */
+			height:35px
+			}
+	.menu { 
+			font:10px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			width: 1200px;  /*设置div宽度*/
+			margin:0 auto;
+			}
+	.menu li {
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			margin:0; /* 将默认的外边距去掉 */
+			float:left; /* 往左浮动 */
+			}
+	.menu li a {
+			display:block; /* 将链接设为块级元素 */
+			padding:8px 50px; /* 设置内边距 */
+			padding-left:70px; /* 设置内边距 */
+			background:#0099CC; /* 设置背景色 */
+			color:#fff; /* 设置文字颜色 */
+			text-decoration:none; /* 去掉下划线 */
+			margin:0 auto; /* 将默认的外边距去掉 */
+			width: 100px;  /*设置div宽度*/
+			}
+	.menu li a:hover{
+			background-color: #3A4953;
+			}
+
+	#右侧一栏 {
+			float:right;
+			margin-top:25px; /* 将默认的外边距去掉 */
+			width: 800px;  /*设置div宽度*/
+			border:#ACD6FF 1px solid;  
+			}
+	#标题 {
+			font-family: "宋体";
+			width: 650px;  /*设置div宽度*/
+			margin: 0 auto;   /*设置div居中*/
+		}
+	#信息 {
+			font-family: "仿宋";
+			width: 650px;  /*设置div宽度*/
+			margin: 0 auto;   /*设置div居中*/
+		}
+    #内容 {
+			font-family: "仿宋","宋体";
+            width: 650px;  /*设置div宽度*/
+			margin: 0 auto;   /*设置div居中*/
+        }
+	#注意事项 {
+			font-family: "仿宋","宋体";
+			width: 650px;  /*设置div宽度*/
+			margin: 0 auto;   /*设置div居中*/
+		}
+	#结尾 {
+			font-family: "宋体";
+			width: 650px;  /*设置div宽度*/
+			margin: 0 auto;   /*设置div居中*/
+			margin-button: 10px;
+		}
+	#左侧一栏{
+			float:left;
+			width: 390px;  /*设置div宽度*/
+			margin-top: 25px;
+		}
+	#bt2 {
+			width: 180px;  /*设置div宽度*/
+			margin-top:20px;
+			margin-bottom: 20px;
+			margin-left:10px
+		}
+	#bt1 {
+			width: 300px;  /*设置div宽度*/
+		}
+	#search-box {
+			width: 350px;  /*设置div宽度*/
+			margin-left:10px
+			}
+	#labdiv {
+			width: 300px;  /*设置div宽度*/
+			margin-left:20px;
+			margin-top:10px;
+			margin-bottom:10px;
+			}
+	#info-box1 {
+			font-family: "微软雅黑";
+			font-size: 15px;
+			width: 390px;
+			background: #FCFCFC;
+			border:#ACD6FF 1px solid;
+		}
+	#info-box2 {
+			font-family: "微软雅黑";
+			font-size: 15px;
+			width: 390px;
+			background: #FCFCFC;
+            border-bottom:#ACD6FF 1px solid;  
+            border-left:#ACD6FF 1px solid;  
+			border-right: #ACD6FF 1px solid;
+			border-top: #ACD6FF 1px solid;
+			}
+		#ip00{
+				font-size: 14px;
+				width:90px;
+				margin-left:10px;
+			}
+		#ip0 {
+				font-size: 14px;
+				width:180px;
+				margin-left:10px;
+			}
+		#ip1 {
+				font-size: 14px;
+				width:220px;
+				margin-left:10px;
+			}
+		#ipl1 {
+				font-size: 14px;
+				width:180px;
+				margin-left:10px;
+			}
+		#ip2 {
+				font-size: 14px;
+				width:260px;
+				margin-left:10px;
+			}
+		#ip3 {
+				font-size: 14px;
+				width:50px;
+				margin-left:10px;
+				text-align:center;
+			}
+		#ip4 {
+				font-size: 14px;
+				width:50px;
+				margin-left:10px;
+				text-align:center;
+			}
+		#ip5 {
+				font-size: 14px;
+				width:50px;
+				margin-left:10px;
+				text-align:center;
+			}
+		#ip6 {
+				font-size: 14px;
+				width:30px;
+				margin-left:10px;
+				margin-right:10px;
+				text-align:center;
+			}
+				#ipy {
+				font-size: 14px;
+				width:50px;
+				margin-left:10px;
+				text-align:center;
+			}
+				#ipm {
+				font-size: 14px;
+				width:25px;
+				margin-left:10px;
+				text-align:center;
+			}
+				#ipd {
+				font-size: 14px;
+				width:25px;
+				margin-left:10px;
+				text-align:center;
+			}
+	#企业信息输出 {
+			width: 295px;
+			height: 300px;
+		}
+	#展示界面 {
+			width: 1200px;
+			margin: 0 auto;
+			height:1000px;
+		}
+	.a_demo_one {
+				background-color:#D1D1D1;
+				padding:10px;
+				position:relative;
+				font-family: "微软雅黑";
+				font-size:16px;
+				outline:none;
+				text-decoration:none;
+				color:BLACK;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #D1D1D1),
+				color-stop(1, #FFFFFF)
+				);
+				}
+	.a_demo_one::before {
+				background-color:#ccd0d5;
+				content:"";
+				display:block;
+				position:absolute;
+				width:100%;
+				height:100%;
+				padding:8px;
+				left:-8px;
+				top:-8px;
+				z-index:-1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				-o-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-moz-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-o-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				}	
+	.a_demo_one:active {
+				padding-bottom:9px;
+				padding-left:10px;
+				padding-right:10px;
+				padding-top:11px;
+				top:1px;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #FFFFFF),
+				color-stop(1, #D1D1D1)
+				);
+				}
+</style>
+<script language="javascript"> 
+function printdiv(printpage){
+	var headstr = "<html><head><title></title></head><style type='text/css'>#a{margin-top:600px;}</style><body>";
+	var footstr = "</body>";
+	var newstr = document.all.item(printpage).innerHTML;
+	var oldstr = document.body.innerHTML;
+	document.body.innerHTML = headstr+newstr+footstr;
+	window.print(); 
+	document.body.innerHTML = oldstr;
+	return false;
+	}
+</script>
+</head>
+<body>
+<div id="顶部">
+	<div style="width:500px;float:left;padding:0px;margin-top:15px;">
+		<img src="/static/tic.jpg" style="float:left;margin-left:10px;" width="30" height="30">
+		<h2 style="margin:0 auto;">&nbsp;标签检验业务系统&emsp;Alpha&nbsp;1.0</h2>
+	</div>
+	<div style="width:200px;float:right;margin-top:10px;">		
+	<!--a href="/db_in">
+		<img src="/static/home.jpg"  width="42" height="42" border=0 />
+	</a-->
+	</div>
+</div>
+<div id="顶目录" >
+	<div id="lists">
+		<ul class="menu">
+		<li><a href="/label/consign" style="font-size:14px;">&nbsp;&nbsp;委托录入</a></li>
+		<li><a href="/label/edit" style="font-size:14px;">&nbsp;&nbsp;报告编辑</a></li>
+		<li><a href="/label/check" style="font-size:14px;">&nbsp;&nbsp;查看报告</a></li>
+		<li><a href="/label/print" style="font-size:14px;">&nbsp;&nbsp;信息打印</a></li>
+		<li><a href="/label/setting" style="font-size:14px;">&nbsp;&nbsp;其他功能</a></li>
+		</ul>
+	</div>
+</div>
+	<div id="展示界面">
+		<div id=左侧一栏>
+			<div id="info-box2">
+				<p align="center" style="font-size:16px;line-height:50%;"><strong>信息核对</strong></p>
+				<form action="#" method="post">
+					{% csrf_token %}
+					<span style="line-height:180%">&emsp;报告编号：</span>
+					<input id='ip1' type="text" name="reportSN" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" AUTOCOMPLETE="off" class="sou_text" value="{{ctx.reportSN}}">
+					<br><span style="line-height:180%">&emsp;样品名称：</span>
+					<input id='ip1' type="text" name="itemname" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" AUTOCOMPLETE="off" class="sou_text" value="{{ctx.itemname}}">
+					<br><span style="line-height:180%">&emsp;规格型号：</span>
+					<input id='ip1' type="text" name="spec" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" AUTOCOMPLETE="off" class="sou_text" value="{{ctx.spec}}">
+					<br><span style="line-height:180%">&emsp;委托单位：</span>
+					<input id='ip1' type="text" name="companyname" onFocus="focusInputEle(this)" onBlur="blurInputEle(this)" AUTOCOMPLETE="off" class="sou_text" value="{{ctx.companyname}}">
+					<hr></hr>
+					<input type="submit" class="a_demo_one" value="报&nbsp告&nbsp封&nbsp面" name="firstpage" style="width:390px;;"><br>
+					<input type="submit" class="a_demo_one" value="样&nbsp品&nbsp标&nbsp签" name="labelpaper" style="width:390px">
+					<input type="submit" class="a_demo_one" value="PDF417" name="pdf417" style="width:390px">
+					</form>
+					<!-input type="submit" class="a_demo_one" value="符&nbsp合&nbsp性&nbsp确&nbsp认&nbsp登&nbsp记&nbsp表&nbsp（空）" name="pgp1" style="width:390px" onclick="window.open(href='/print/page1','_blank');">
+			</div>
+		</div>
+		<div id=右侧一栏>
+			<div id="bt1">
+				<a href="#" class="button next" onClick="printdiv('div_print');">&emsp;打&emsp;&emsp;印&emsp;&emsp;</a>
+			</div>
+			<div id="div_print">
+			{{ctx.rlt|safe }}
+			{{ctx.bt|safe }}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

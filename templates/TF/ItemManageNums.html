@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<style type="text/css">
+		#attention {
+					margin:20px;
+					font-size:16px;
+					color:red;
+		}
+		input{
+			 border: none;
+			 overflow: hidden;
+			 width: 100%;
+			 background:white;
+			 font-family: verdana,arial,sans-serif;
+			 font-size:14px;
+		  } 
+		  table.gridtable {
+			  font-family: verdana,arial,sans-serif;
+			  font-size:14px;
+			  color:#333333;
+			  border-width: 1px;
+			  border-color: #666666;
+			  border-collapse: collapse;
+			  width:800px;
+		 }
+		 table.gridtable th {
+			 border-width: 1px;
+			 padding: 8px;
+			 border-style: solid;
+			 border-color: #666666;
+			 background-color: #dedede;
+		 }
+		 table.gridtable td {
+			 border-width: 1px;
+			 padding: 8px;
+			 border-style: solid;
+			 border-color: #666666;
+			 background-color: #ffffff;
+		 }
+</style>
+</head>
+<div>
+<body bgcolor='#F5F5F5'>
+	<p style="font-size:15px;line-height:50%;"><strong>&nbsp;样品编号管理：（2019年1月1日以前检测来样，及成功数量为零的单次来样未编号）</strong></p>
+		<table class= 'gridtable'>
+			<tr>
+				<th style="width:100px;">样品编号管理：</th>
+				<th style="width:100px;">确认编号</th>
+				<th style="width:300px;">企业名称</br></th>
+				<th style="width:50px;">成功数量</th>
+			</tr>
+			{% for value in ManageNums %}
+				<tr>
+						{% csrf_token %}
+						<td align="center">{{value.ItemManageNums}}</td>
+						<td align="center">{{value.SN}}-{{value.Times}}</td>
+						<td align="center">{{value.CompanyName}}</td>
+						<td align="center">{{value.SuccessAmount}}</td>
+				</tr>
+			{% endfor %}
+	</table>
+</div>
+<div id="attention">
+	{{attention|safe}}
+</div>
+</body>
+</html>

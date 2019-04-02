@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>tab</title>
+</head>
+
+<!-- 导入jquery -->
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+<!-- 文档准备完成后 -->
+		$(document).ready(function(){
+		<!-- jq选择器，作用选择class="pageNo" 的元素，使它的内容变成 第x页，共n页 -->
+			$(".pageNo").each(function(index,element){
+				<!-- 修改内容语句，主要一定要是英文符号的双引号 -->
+				$(this).html( "第 "+(index + 1)+" 页,共 "+$(".pageNo").size() +" 页")
+			})
+		});
+</script>
+<style type="text/css">
+p{	font-size:16px;
+	font-family:'Times','楷体';
+	}
+table.t1{	border-collapse: collapse;
+			margin: 0 auto;
+			width:700px;
+			font-size:16px;
+			font-family:'仿宋';
+			}
+table.t1 tr{
+			border-bottom: 1px solid black;
+			}
+table.t1 td{
+			height:45px;
+			text-align:center;
+			}
+table.t2{
+			border-collapse: collapse;
+			margin: 0 auto;
+			width:700px;
+			font-size:14px;
+			font-family:'仿宋';
+			}
+table.t2 th{
+			padding:5px;
+			}
+table.t2 tr{
+			border-bottom: 1px solid black;
+			}
+table.t2 td{
+			text-align:center;
+			padding:5px;
+			line-height:160%;
+			}
+table.t3{
+			border-collapse: collapse;
+			margin: 0 auto;
+			font-size:14px;
+			font-family:'仿宋';
+			}
+table.t3 tr{
+			border-bottom: 1px solid black;
+			}
+table.t3 th{
+			text-align:center;
+			line-height:100%;
+			}
+table.t3 td{
+			padding:0px;
+			text-align:left;
+			line-height:110%;
+			}
+</style>
+<body>
+	<div id="print_div" style="width: 700px;margin: 0 auto;background:white;">
+		<div style="width:700px;height:50px;background-color:white;">
+			<p style="line-height:-20%;float:left;margin:0 auto;letter-spacing:3px;">SZBZ/WT&nbsp;121-2018</p>
+			<div  style="float:right;height:30px;width:300px;">
+				<img src='pdf417.png' style="float:right;">
+				<p style="line-height:120%;margin:0 auto;float:right;letter-spacing:10px;font-size:10px;">201901-01020001</p>
+			</div>
+		</div>
+		<p style="text-align:center;letter-spacing:5px;font-family:'楷体';font-size:30px;margin-top:15px;margin-bottom:15px;">深圳市标准技术研究院</br>预包装食品标签检验报告</p>
+		<!-- 需要显示页码的地方设置 class="pageNo" -->
+		<p class="pageNo" align="right" style="line-height:100%;margin:auto 0;margin-bottom:5px;"></p>
+	<table border="1" bordercolor="black" cellspacing="0" class="t1">
+		<tr>
+			<td style="width:140px;">报告编号</td>
+			<td></td>
+			<td style="width:120px;">检验类别</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>样品名称</td>
+			<td></td>
+			<td>规格型号</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>客户名称</td>
+			<td></td>
+			<td>送检经办人</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>客户地址</td>
+			<td colspan=3></td>
+		</tr>
+		<tr>
+			<td>联系方式</td>
+			<td></td>
+			<td>来样日期</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>样品状态描述</td>
+			<td></td>
+			<td>检验日期</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>检验设备编号</td>
+			<td></td>
+			<td>检验地点</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>检验依据</td>
+			<td colspan=3></td>
+		</tr>
+		<tr>
+			<td>检验结论</td>
+			<td colspan=3 style="text-align:right;height:150px;padding-right:5px;"><br><br><br>（检验专用章）<br>签发日期：2019年02月15日</td>
+		</tr>
+		<tr>
+			<td style="height:120px;">意见和解释</td>
+			<td colspan=3> </td>
+		</tr>
+		<tr>
+			<td style="height:80px;">备注</td>
+			<td colspan=3></td>
+		</tr>
+	</table>
+	<p align="center" style="line-height:20%;font-size:18px;font-family:'仿宋';margin-top:40px;">检验：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+															  审核：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+															  批准：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</p><br><br>
+	<table class="t2" border="1" bordercolor="black" cellspacing="0" >
+		<thead style="display:table-header-group;">
+			<tr>
+				<td colspan="5" style="padding:5px;line-height:80%;border-color:white;">SZBZ/WT&nbsp;121-2018&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<img src='pdf417.png'></td>
+			</tr>
+			<tr>
+				<td colspan="5" style="padding:5px;line-height:80%;border-color:white;border-bottom-color:black;">报告编号：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+				<!-- 需要显示页码的地方设置 class="pageNo" -->
+				<span class="pageNo"></span></td>
+			</tr>
+			<tr>
+				<th style="width:40px;">序号</th>
+				<th style="width:70px;">检验项目</th>
+				<th style="width:300px;">要求</th>
+				<th style="width:150px;">检验结果</th>
+				<th style="width:40px;">判定</th>
+			</tr>
+		</thead>
+			<tr>
+				<td rowspan="3">1</td>
+				<td  rowspan="3">基本要求</td>
+				<td style="text-align:left;">—— 应符合法律、法规的规定，并符合相应食品安全标准的规定。<br>
+					—— 应清晰、醒目、持久，应使消费者购买时易于辨认和识读。<br>
+					—— 应通俗易懂、有科学依据，不得标示封建迷信、色情、贬低其他食品或违背营养科学常识的内容。<br>
+					—— 应真实、准确，不得以虚假、夸大、使消费者误解或欺骗性的文字、图形等方式介绍食品，也不得利用字号大小或色差误导消费者。<br>
+					—— 不应直接或以暗示性的语言、图形、符号，误导消费者将购买的食品或食品的某一性质与另一产品混淆。<br>
+					—— 不应标注或者暗示具有预防、治疗疾病作用的内容，非保健食品不得明示或者暗示具有保健作用。<br>
+					—— 不应与食品或者其他包装物(容器）分离。<br>
+					—— 应使用规范的汉字（商标除外）。具有装饰作用的各种艺术字，应书写正确，易于辨认。<br>
+					a）可以同时使用拼音或少数民族文字，拼音不得大于相应的汉字。<br>
+					b）可以同时使用外文，但应与中文有对应关系(商标、进口食品的制造者和地址、国外经销者的名称和地址、网址除外）。所有外文不得大于相应的汉字(商标除外）。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">—— 预包装食品包装物或包装容器最大表面面积大于35cm&sup2;时（最大表面面积计算方法参见GB 7718附录A），强制标示内容的文字、符号、数字的高度不得小于1.8mm；</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">
+				—— 一个销售单元的包装中含有不同品种、多个独立包装可单独销售的食品，每件独立包装的食品标识应当分别标注；<br>
+				—— 若外包装易于开启识别或透过外包装物能清晰地识别内包装物（容器）上的所有强制标示内容或部分强制标示内容，可不在外包装物上重复标示相应的内容；否则应在外包装物上按要求标示所有强制标示内容。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<div style="page-break-after: always;"></div>
+			<tr>
+				<td>2</td>
+				<td>食品名称</td>
+				<td style="text-align:left;">
+				——应在食品标签的醒目位置，清晰地标示反映食品真实属性的专用名称。<br>
+				a）当国家标准、行业标准或地方标准中已规定了某食品的一个或几个名称时，应选用其中的一个，或等效的名称。<br>
+				b）无国家标准、行业标准或地方标准规定的名称时，应使用不使消费者误解或混淆的常用名称或通俗名称。<br>
+				——标示“新创名称”、“奇特名称”、“音译名称”、“牌号名称”、“地区俚语名称”或“商标名称”时，应在所示名称的同一展示版面标示GB 7718中4.1.2.1规定的名称。<br>
+				a）当“新创名称”、“奇特名称”、“音译名称”、“牌号名称”、“地区 俚语名称”或“商标名称”含有易使人误解食品属性的文字或术语(词语）时，应在所示名称的同一展示版面邻近部位使用同一字号标示食品真实属性的专用名称。<br>
+				b）当食品真实属性的专用名称因字号或字体颜色不同易使人误解食品属性时，也应使用同一字号及同一字体颜色标示食品真实属性的专用名称。<br>
+				——为不使消费者误解或混淆食品的真实属性、物流状态或制作方法，可以在食品名称前或食品名称后附加相应的词或短语。如干燥的、浓缩的、复原的、熏制的、油炸的、粉末的、粒状的等。<br>
+				</td>
+				<td ></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>3</td>
+				<td>配料表</td>
+				<td style="text-align:left;">
+				—— 预包装食品的标签上应标示配料表，配料表中的各种配料应按GB 7718中4.1.2的要求标示具体名称，食品添加剂按照GB 7718中4.1.3.1.4的要求标示名称。<br>
+				a)配料表应以“配料”或“配料表”为引导词。当加工过程中所用的原料已改变为其他成分（如酒、酱油、食醋等发酵产品）时，可用“原料”或“原料与辅料”代替“配料”、“配料表”，并按GB 7718相应条款的要求标示各种原料、辅料和食品添加剂。加工助剂不需要标示。<br>
+				b)各种配料应按制造或加工食品时加入量的递减顺序一一排列；加入量不超过2%的配料可以不按递减顺序排列。<br>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>配料表</td>
+				<td style="text-align:left;">
+				c)如果某种配料是由两种或两种以上的其他配料构成的复合配料（不包括复合食品添加剂），应在配料表中标示复合配料的名称，随后将复合配料的原始配料在括号内按加入量的递减顺序标示。当某种复合配料已有国家标准、行业标准或地方标准，且其加入量小于食品总量的25％时，不需要标示复合配料的原始配料。<br>
+				d)食品添加剂应当标示其在GB 2760中的食品添加剂通用名称。食品添加剂通用名称可以标示为食品添加剂的具体名称，也可标示为食品添加剂的功能类别名称并同时标示食品添加剂的具体名称或国际编码（INS号）（标示形式参见GB 7718附录B）。在同一预包装食品的标签上，应选择附录B中的一种形式标示食品添加剂。当采用同时标示食品添加剂的功能类别名称和国际编码的形式时，若某种食品添加剂尚不存在相应的国际编码，或因致敏物质标示需要，可以标示其具体名称。食品添加剂的名称不包括其制法。加入量小于食品总量25%的复合配料中含有的食品添加剂，若符合GB 2760规定的带入原则且在最终产品中不起工艺作用的，不需要标示。<br>
+				e)在食品制造或加工过程中，加入的水应在配料表中标示。在加工过程中已挥发的水或其他挥发性配料不需要标示。<br>
+				f)可食用的包装物也应在配料表中标示原 始配料，国家另有法律法规规定的除外。<br>
+				—— 下列食品配料，可以选择按表1的方式标示。<br>
+				表1  配料标示方式<br>
+					<table class="t3" bordercolor="black" cellspacing="0" border="1">
+						<tr>
+							<th>配料类别</th>
+							<th>标示方式</th>
+						</tr>
+						<tr>
+							<td>各种植物油或精炼植物油，不包括橄榄油</td>
+							<td>“植物油”或“精炼植物油”；如经过氢化处理，应标示为“氢化”或“部分氢化”</td>
+						</tr>
+						<tr>
+							<td>各种淀粉，不包括化学改性淀粉</td>
+							<td>“淀粉”</td>
+						</tr>
+						<tr>
+							<td>加入量不超过2%的各种香辛料或香辛料浸出物(单一的或合计的）</td>
+							<td>“香辛料”、“香辛料类”或“复合香辛料”</td>
+						</tr>
+						<tr>
+							<td>胶基糖果的各种胶基物质制剂</td>
+							<td>“胶姆糖基础剂”、“胶基”</td>
+						</tr>
+						<tr>
+							<td>添加量不超过10%的各种果脯蜜饯水果</td>
+							<td>“蜜饯”、“果脯”</td>
+						</tr>
+						<tr>
+							<td>食用香精、香料</td>
+							<td>“食用香精”、“食用香料”、“食用香精香料”</td>
+						</tr>
+					</table>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>配料的定量标示</td>
+				<td style="text-align:left;">—— 如果在食品标签或食品说明书上特别强调添加了或含有一种或多种有价值、有特性的配料或成分，应标示所强调配料或成分的添加量或在成品中的含量。<br>
+					—— 如果在食品的标签上特别强调一种或多种配料或成分的含量较低或无时，应标示所强调配料或成分在成品中的含量。<br>
+					—— 食品名称中提及的某种配料或成分而未在标签上特别强调，不需要标示该种配料或成分的添加量或在成品中的含量。<br>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td rowspan="2">5</td>
+				<td rowspan="2">净含量和规格</td>
+				<td style="text-align:left;">
+				—— 净含量的标示应由净含量、数字和法定计量单位组成（标示形式参见GB 7718附录C）。</br>
+				—— 应依据法定计量单位，按以下形式标示包装物(容器）中食品的净含量：</br>
+				a）液态食品，用体积升（L）（l）、毫升 (mL）（ml），或用质量克（g）、千克（kg）；</br>
+				b）固态食品，用质量克（g）、千克（kg）；</br>
+				c）半固态或黏性食品，用质量克（g）、千克（kg）或体积升（L）（l）、毫升（mL）（ml）。</br>
+				—— 净含量的计量单位应按表2标示。</br>
+				表2  净含量计量单位的标示方式
+					<table class="t3" bordercolor="black" cellspacing="0" border="1">
+						<tr>
+							<th>计量方式</th>
+							<th>净含量（Q）的范围</th>
+							<th>计量单位</th>
+						</tr>
+						<tr>
+							<td style="text-align:center;">体积</td>
+							<td style="text-align:center;">Q＜1000mL<br>Q≥1000mL</td>
+							<td style="text-align:center;">毫升（mL）（m1）<br>升（L）（1）</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;">质量</td>
+							<td style="text-align:center;">Q＜1000g<br>Q≥1000g</td>
+							<td style="text-align:center;">克（g）<br>千克（kg）</td>
+						</tr>
+					</table>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td style="text-align:left;">
+				—— 净含量字符的最小高度应符合表3的规定。</br>
+				表3  净含量字符的最小高度
+					<table class="t3" bordercolor="black" cellspacing="0" border="1">
+						<tr>
+							<th>净含量（Q）范围</th>
+							<th>字符的最小高度mm</th>
+						</tr>
+						<tr>
+							<td style="text-align:center;">Q≤50mL<br>Q≤50g</td>
+							<td style="text-align:center;">2</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;">50mL＜Q≤200mL<br>50g＜Q≤200g</td>
+							<td style="text-align:center;">3</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;">200mL＜Q≤lL<br>200g＜Q≤1kg</td>
+							<td style="text-align:center;">4</td>
+						</tr>
+						<tr>
+							<td style="text-align:center;">Q＞1kg<br>Q＞1L</td>
+							<td style="text-align:center;">6</td>
+						</tr>
+					</table>
+					</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>净含量和规格</td>
+				<td style="text-align:left;">
+				—— 净含量应与食品名称在包装物或容器的同一展示版面标示。<br>
+				—— 容器中含有固、液两相物质的食品，且固相物质为主要食品配料时，除标示净含量外，还应以质量或质量分数的形式标示沥干物(固形物）的含量（标示形式参见GB 7718附录C）。<br>
+				—— 同一预包装内含有多个单件预包装食品时，大包装在标示净含量的同时还应标示规格。<br>
+				—— 规格的标示应由单件预包装食品净含量和件数组成，或只标示件数，可不标示“规格”二字。单件预包装食品的规格即指净含量（标示形式参见GB 7718附录C）。
+				</td>
+				<td></td>
+				<td></td>				
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>生产者、经销者的名称、地址和联系方式</td>
+				<td style="text-align:left;">—— 应当标注生产者的名称、地址和联系方式。生产者名称和地址应当是依法登记注册、能够承担产品安全质量责任的生产者的名称、地址。有下列情形之一的，应按下列要求予以标示。<br>
+					a）依法独立承担法律责任的集团公司、集团公司的子公司，应标示各自的名称和地址。<br>
+					b）不能依法独立承担法律责任的集团公司的分公司或集团公司的生产基地，应标示集团公司和分公司(生产基地）的名称、地址；或仅标示集团公司的名称、地址及产地，产地应当按照行政区划标注到地市级地域。<br>
+					c）受其他单位委托加工预包装食品的，应标示委托单位和受委托单位的名称和地址；或仅标示委托单位的名称和地址及产地，产地应当按照行政区划标注到地市级地域。<br>
+					—— 依法承担法律责任的生产者或经销者的联系方式应标示以下至少一项内容：电话、传真、网络联系方式等，或与地址一并标示的邮政地址。<br>
+					—— 进口预包装食品应标示原产国国名或地区区名(指香港、澳门、台湾），以及在中国依法登记注册的代理商、进口商或经销者的名称、地址和联系方式，可不标示生产者的名称、地址和联系方式。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>日期标示</td>
+				<td style="text-align:left;">—— 应清晰标示预包装食品的生产日期和保质期。如日期标示采用“见包装物某部位”的形式，应标示所在包装物的具体部位。日期标示不得另外加贴、补印或篡改（标示形式参见GB 7718附录C）。<br>
+					当同一预包装内含有多个标示了生产日期及保质期的单件预包装食品时，外包装上标示的保质期应按最早到期的单件食品的保质期计算。外包装上标示的生产日期应为最早生产的单件食品的生产日期，或外包装形成销售单元的日期；也可在外包装上分别标示各单位装食品的生产日期和保质期。 
+					<br>—— 应按年、月、日的顺序标示日期，如果不按此顺序标示，应注明日期标示顺序（标示形式参见GB 7718附录C）。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td>贮存条件</td>
+				<td style="text-align:left;">—— 预包装食品标签应标示贮存条件（标示形式参见GB 7718附录C）。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>食品生产许可证编号</td>
+				<td style="text-align:left;">—— 预包装食品标签应标示食品生产许可证编号的，标示形式按照相关规定执行。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td>产品标准代号</td>
+				<td style="text-align:left;">—— 在国内生产并在国内销售的预包装食品(不包括进口预包装食品）应标示产品所执行的标准代号和顺序号。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>11</td>
+				<td>其他标示内容</td>
+				<td style="text-align:left;">
+				—— 辐照食品<br>
+				a）经电离辐射线或电离能量处理过的食品，应在食品名称附近标示“辐照食品”。<br>
+				b）经电离辐射线或电离能量处理过的任何 配料，应在配料表中标明。<br>
+				—— 转基因食品<br>
+				转基因食品的标示应符合相关法律、法规的规定。<br>
+				—— 营养标签<br>
+				a）特殊膳食类食品和专供婴幼儿的主辅类 食品，应当标示主要营养成分及其含量，标示方式按照GB 13432执行。<br>
+				b）其他预包装食品营养标签标示方式应符合GB 28050的规定。<br>
+				—— 质量（品质）等级<br>
+				食品所执行的相应产品标准已明确规定质量（品质）等级的，应标示质量（品质）等级。<br>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>12</td>
+				<td>非直接提供给消费者的预包装食品标签标示内容</td>
+				<td style="text-align:left;">—— 非直接提供给消费者的预包装食品标签应按照GB 7718中4.1项下的相应要求标示食品名称、规格、净含量、生产日期、保质期和贮存条件，其他内容如未在标签上标注，则应在说明书或合同中注明。</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>13</td>
+				<td>标示内容的豁免</td>
+				<td style="text-align:left;">
+				——下列预包装食品可以免除标示保质期：酒精度大于等于10%的饮料酒；食醋；食用盐；固态食糖类；味精。<br>
+				—— 当预包装食品包装物或包装容器的最大表面面积小于10cm&sup2;时（最大表面面积计算方法参见GB 7718附录A），可以只标示产品名称、净含量、生产者（或经销商）的名称和地址。
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>14</td>
+				<td>推荐标示内容</td>
+				<td style="text-align:left;">
+				—— 批号<br>
+				根据产品需要，可以标示产品的批号。<br>
+				—— 食用方法<br>
+				根据产品需要，可以标示容器的开启方法、食用方法、烹调方法、复水再制方法等对消费者有帮助的说明。<br>
+				—— 致敏物质<br>
+				a）以下食品及其制品可能导致过敏反应，如果用作配料，宜在配料表中使用易辨识的名称，或在配料表邻近位置加以提示：<br>
+				含有麸质的谷物及其制品（如小麦、黑麦、大麦、燕麦、斯佩耳特小麦或它们的杂交品系）；甲壳纲类动物及其制品（如虾、龙虾、蟹等）；鱼类及其制品；蛋类及其制品；花生及其制品；大豆及其制品；乳及乳制品（包括乳糖）；坚果及其果仁类制品。<br>
+				b）如加工过程中可能带入上述食品或其制品，宜在配料表邻近位置加以提示。<br>
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>15</td>
+				<td>其他</td>
+				<td style="text-align:left;">——按国家相关规定需要特殊审批的食品，其标签标识按照相关规定执行。
+				</td>
+				<td></td>
+				<td></td>
+			</tr>
+	</table>
+	</div>
+</body>

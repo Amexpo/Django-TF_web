@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>条码符合性确认系统&nbspAlpha&nbsp1.0</title>
+{% load staticfiles %}
+<link rel="stylesheet" href="/static/css/style.css" media="screen" type="text/css" />
+<link rel="shortcut icon" href='/static/icoo.ico' />
+<style type="text/css">
+	table{
+		margin top: 20px;
+		border-collapse: collapse;
+		margin: 0 auto;
+		width:800px;
+		font-family: "宋体";
+		}
+	tr{
+		border-bottom: 1px solid black;
+		}
+	#顶部 {	height:65px;
+			width:1050px;
+			margin:0 auto;
+			}
+	#顶目录 {
+			background:#0099CC; /* 设置背景色 */
+			height:35px
+			}
+	#功能栏 {
+			background:white;
+			width:850px;
+			height:800px;
+			margin:0 auto;
+			margin-top:30px;
+			}
+			
+	#menu { 
+			font:10px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			width: 1200px;  /*设置div宽度*/
+			margin:0 auto;
+			}
+	#menu li {
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			margin:0; /* 将默认的外边距去掉 */
+			float:left; /* 往左浮动 */
+			}
+	#menu li a {
+			display:block; /* 将链接设为块级元素 */
+			padding:8px 50px; /* 设置内边距 */
+			padding-left:70px; /* 设置内边距 */
+			background:#0099CC; /* 设置背景色 */
+			color:#fff; /* 设置文字颜色 */
+			text-decoration:none; /* 去掉下划线 */
+			margin:0 auto; /* 将默认的外边距去掉 */
+			width: 100px;  /*设置div宽度*/
+			}
+	#menu li a:hover{
+			background-color: #3A4953;
+			}
+	.a_demo_one {
+				outline:none;
+				background-color:#D1D1D1;
+				padding:10px;
+				position:relative;
+				font-family: "微软雅黑";
+				font-size:20px;
+				text-decoration:none;
+				color:BLACK;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #D1D1D1),
+				color-stop(1, #FFFFFF)
+				);
+				}
+	.a_demo_one::before {
+				background-color:#ccd0d5;
+				content:"";
+				display:block;
+				position:absolute;
+				width:100%;
+				height:100%;
+				padding:8px;
+				left:-8px;
+				top:-8px;
+				z-index:-1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				-o-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-moz-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-o-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				}	
+	.a_demo_one:active {
+				padding-bottom:9px;
+				padding-left:10px;
+				padding-right:10px;
+				padding-top:11px;
+				top:1px;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #FFFFFF),
+				color-stop(1, #D1D1D1)
+				);
+				}
+</style>
+<script>
+    function admin(){
+        window.location.href="/admin";
+    }
+    function label(){
+        window.location.href="/label";
+    }
+    function barcodeDJ(){
+        window.location.href="barcodeDJ";
+    }
+</script>
+</head>
+<body>
+<!--body bgcolor='#F8F8F8'-->
+<div id="顶部">
+	<div style="width:500px;float:left;padding:0px;margin-top:15px;">
+		<img src="/static/tic.jpg" style="float:left;margin-left:10px;" width="30" height="30">
+		<h2 style="margin:0 auto;">&nbsp;条码符合性确认系统&emsp;Alpha&nbsp;1.0</h2>
+	</div>
+	<div style="width:200px;float:right;margin-top:10px;">		
+	<a href="/TF/barcodeDJ/">
+		<img src="/static/tin.jpg"  width="42" height="42" border=2 />
+	</a>	
+	<!--a href="/TF/rpm">
+		<img src="/static/rpm1.png"  width="42" height="42" border=0  style="margin-left:20px;"/>
+	</a-->
+	</div>
+</div>
+<div id="顶目录" >
+	<div id="lists">
+		<ul id="menu">
+		<li><a href="/TF/db_in" style="font-size:14px;">&nbsp;&nbsp;企业录入</a></li>
+		<li><a href="/TF/co_info" style="font-size:14px;">&nbsp;&nbsp;企业信息</a></li>
+		<li><a href="/TF/item_info" style="font-size:14px;">&nbsp;&nbsp;来样查询</a></li>
+		<li><a href="/TF/print" style="font-size:14px;">&nbsp;&nbsp;信息打印</a></li>
+		<li><a href="/TF/function" style="font-size:14px;">&nbsp;&nbsp;其他功能</a></li>
+		</ul>
+	</div>
+</div>
+<div id="功能栏">
+	<fieldset><legend><span style="font-size:20px"><strong>功能栏</strong></span></legend>
+		<button onclick=barcodeDJ() class="a_demo_one" style="width:800px;margin:10px;" ><span style="font-size:20px"><strong>*********&emsp;条&emsp;码&emsp;菲&emsp;林&emsp;委&emsp;托&emsp;录&emsp;入&emsp;*********</strong></span></button>
+			<button onclick=label() class="a_demo_one" style="width:800px;margin:10px;" ><span style="font-size:20px"><strong>*********&emsp;标&emsp;签&emsp;检&emsp;验&emsp;业&emsp;务&emsp;系&emsp;统&emsp;*********</strong></span></button>
+		<form method="post" action='#'>
+		{% csrf_token %}
+			<button type="submit" class="a_demo_one" style="width:800px;margin:10px;" ><span style="font-size:20px" name="update"><strong>*****************&emsp;数&emsp;据&emsp;匹&emsp;配&emsp;*****************</strong></span></button>
+		</form>
+		<button onclick=javascript:admin() class="a_demo_one" style="width:800px;margin:10px;"><span style="font-size:20px"><strong>*****************&emsp;后&emsp;台&emsp;管&emsp;理&emsp;*****************</strong></span></button>
+	</fieldset>
+</div>
+</body>
+</html>

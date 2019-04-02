@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+<title>标签检验业务系统&emsp;Alpha&nbsp;1.0</title>
+{% load staticfiles %}
+<link rel="stylesheet" href="/static/css/style.css" media="screen" type="text/css" />
+<link rel="shortcut icon" href='/static/icoo.ico' />
+<style type="text/css">
+	#顶部 {	height:65px;
+			width:1050px;
+			margin:0 auto;
+			}
+	#顶目录 {
+			background:#0099CC; /* 设置背景色 */
+			height:35px;
+			}
+	#内容_dbin {
+			width:1000px;
+			height: 800px;
+			margin:0 auto;
+			min-height:400px;
+			margin-top:30px;
+			margin-bottom:20px;
+			}
+	#tips {
+			background:white;
+			width:960px;
+			margin:10px;
+			float:left;
+			}
+	#左内容_dbin {
+			width:400px;
+			margin:10px;
+			float:left;
+			font-family: "微软雅黑";
+			font-size:15px;
+			line-height:500%;
+			}
+	#右内容_dbin {
+			width:400px;
+			margin:10px;
+			float:right;
+			font-family: "微软雅黑";
+			font-size:15px;
+			line-height:500%;
+			}
+	#menu { 
+			font:10px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			width: 1200px;  /*设置div宽度*/
+			margin:0 auto;
+			}
+	#menu li {
+			list-style:none; /* 将默认的列表符号去掉 */
+			padding:0; /* 将默认的内边距去掉 */
+			margin:0; /* 将默认的外边距去掉 */
+			float:left; /* 往左浮动 */
+			}
+	#menu li a {
+			display:block; /* 将链接设为块级元素 */
+			padding:8px 50px; /* 设置内边距 */
+			padding-left:70px; /* 设置内边距 */
+			background:#0099CC; /* 设置背景色 */
+			color:#fff; /* 设置文字颜色 */
+			text-decoration:none; /* 去掉下划线 */
+			margin:0 auto; /* 将默认的外边距去掉 */
+			width: 100px;  /*设置div宽度*/
+			}
+	#menu li a:hover{
+			background-color: #3A4953;
+			}
+	.a_demo_one {
+				background-color:#D1D1D1;
+				padding:10px;
+				position:relative;
+				font-family: "微软雅黑";
+				font-size:16px;
+				text-decoration:none;
+				color:BLACK;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #D1D1D1),
+				color-stop(1, #FFFFFF)
+				);
+				}
+	.a_demo_one::before {
+				background-color:#ccd0d5;
+				content:"";
+				display:block;
+				position:absolute;
+				width:100%;
+				height:100%;
+				padding:8px;
+				left:-8px;
+				top:-8px;
+				z-index:-1;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				-o-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-moz-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				-o-box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px white;
+				}	
+	.a_demo_one:active {
+				padding-bottom:9px;
+				padding-left:10px;
+				padding-right:10px;
+				padding-top:11px;
+				top:1px;
+				background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0, #FFFFFF),
+				color-stop(1, #D1D1D1)
+				);
+				}
+.input1{
+		background-color:transparent;
+		border:0;
+		width:400px;
+		outline:none;
+		font-size:16px;
+		text-align:center;
+		font-family:"黑体";
+		margin:0 auto;
+		}
+.table1 td{
+			height:30px;
+			border-bottom:1px solid #ccc;
+			border-right:1px solid #ccc;
+			text-align:center;
+			}
+.table1{margin-top:10px;
+		}
+summary{
+		outline:none;
+		margin-top:30px;
+		cursor:pointer;
+		}
+select{font-size:14px;
+		padding:3px;
+		outline:none;
+		}
+.A {
+	background-color:grey;
+	color:white;
+	border:0px;
+	height:30px;
+	width:150px;
+	font-size:15px;
+	text-decoration:none; /* 去掉下划线 */
+	line-height:30px;
+	display:block; /* 将链接设为块级元素 */
+	cursor:pointer;
+	float:left;
+	margin-top:20px;
+	margin-left:20px;
+	}
+
+.A:hover{
+		background-color:#3A4953;
+		color:white;
+		}
+.A:link{
+		color:white;
+		}
+</style>
+<script>
+var x = 2;
+var y =9313
+function add()
+{ document.getElementById("add").innerHTML=document.getElementById("add").innerHTML+
+		"<table class='table1'><tr><td style='width:150px;'>&#"+y+";样品名称</td><td><input class='input1'name='SampleName"+x+"'autocomplete='off' required></input></td>"+
+			"<tr><td>规格/型号</td><td><input class='input1' name='Spec"+x+"' autocomplete='off' required></input></td>"
+			x=x+1;
+			y=y+1;
+}
+</script>
+</head>
+<body>
+<div id="顶部">
+	<div style="width:500px;float:left;padding:0px;margin-top:15px;">
+		<img src="/static/tic.jpg" style="float:left;margin-left:10px;" width="30" height="30">
+		<h2 style="margin:0 auto;">&nbsp;标签检验业务系统&emsp;Alpha&nbsp;1.0</h2>
+	</div>
+	<div style="width:200px;float:right;margin-top:10px;">		
+	<!--a href="/db_in">
+		<img src="/static/home.jpg"  width="42" height="42" border=0 />
+	</a-->
+	</div>
+</div>
+<div id="顶目录" >
+	<div id="lists">
+		<ul id="menu">
+		<li><a href="/label/consign" style="font-size:14px;">&nbsp;&nbsp;委托录入</a></li>
+		<li><a href="/label/edit" style="font-size:14px;">&nbsp;&nbsp;报告编辑</a></li>
+		<li><a href="/label/check" style="font-size:14px;">&nbsp;&nbsp;查看报告</a></li>
+		<li><a href="/label/print" style="font-size:14px;">&nbsp;&nbsp;信息打印</a></li>
+		<li><a href="/label/setting" style="font-size:14px;">&nbsp;&nbsp;其他功能</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<div id="内容_dbin">
+<form method="POST" action=# enctype="multipart/form-data">
+	{% csrf_token %}
+	<details open>
+		<summary style="width:120px;">一、基本信息</summary>
+			<table class="table1">
+				<tr><td style="width:150px;">企业名称</td"><td><input class="input1" name="CompanyName" autocomplete="off" required></input></td>
+				<tr><td>企业地址</td><td><input class="input1" name="Address" autocomplete="off" required></input></td>
+				<tr><td>联系人</td><td><input class="input1" name="ContactMan" autocomplete="off" required></input></td>
+				<tr><td>联系方式</td><td><input class="input1" name="ContactTel" autocomplete="off" required></input></td>
+				<tr><td>检验类别</td>
+					<td>
+						<select name="checktype">    
+							{% for value in checktype_list %}
+							<option value="{{value.code}}">{{value.code}}.{{value.name}}</option>
+							{% endfor %}
+						</select>
+					</td>
+			</table>
+	</details>
+	<details open>
+		<summary style="width:120px;">二、样品信息</summary>
+			<table class="table1">
+				<tr><td style="width:150px;">&#9312;样品名称</td"><td><input class="input1" name="SampleName1" autocomplete="off" required></input></td>
+				<tr><td>规格/型号</td><td><input class="input1" name="Spec1" autocomplete="off" required></input></td>
+			</table>
+			<div id="add">
+			</div>
+	</details>
+	<div id="attention">
+	</div>
+<input type="submit" value="确认提交" name="update" class="A">
+</form>
+<button class="A" onclick="add()">添加样品</button>
+{{checktype}}
+{{Descript}}
+</div>
+</body>
+</html>

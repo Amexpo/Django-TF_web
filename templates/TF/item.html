@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+	<style>
+		button.button {
+			white-space:nowrap;
+			position: static;
+			color: white;
+			text-decoration: none;
+			background-color: #0099CC;;
+			font-family: 'Times New Roman';
+			font-size: 14px;
+			display: block;
+			border:0px;
+			padding:3px;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			-webkit-box-shadow: 0px 3px 0px #0072A3, 0px 3px 25px rgba(0,0,0,.7);
+			-moz-box-shadow: 0px 3px 0px #0072A3, 0px 3px 25px rgba(0,0,0,.7);
+			box-shadow: 0px 3px 0px #0072A3, 0px 3px 0px rgba(0,0,0,.7);
+			width: 100px;
+			text-align: center;
+			outline:none;
+			 
+			-webkit-transition: all .1s ease;
+			-moz-transition: all .1s ease;
+			-ms-transition: all .1s ease;
+			-o-transition: all .1s ease;
+			transition: all .1s ease;
+		}
+
+		button.button:active {
+			-webkit-box-shadow: 0px 0px 0px #0072A3, 0px 0px 6px rgba(0,0,0,.9);
+			-moz-box-shadow: 0px 0px 0px #0072A3, 0px 0px 6px rgba(0,0,0,.9);
+			box-shadow: 0px 0px 0px #0072A3, 0px 0px 0px rgba(0,0,0,.9);
+			position: relative;
+			top: 1px;
+			outline: none;
+		}
+		table.gridtable {
+			  font-family: #仿宋;
+			  font-size:14px;
+			  color:#333333;
+			  border-width: 1px;
+			  border-color: #666666;
+			  border-collapse: collapse;
+		 }
+		 table.gridtable th {
+			 border-width: 1px;
+			 padding-left: 20px;
+			 padding-right: 20px;
+			 border-style: solid;
+			 border-color: #666666;
+			 text-align:center;
+		 }
+		 table.gridtable td {
+			 border-width: 1px;
+			 padding-left: 20px;
+			 padding-right: 20px;
+			 border-style: solid;
+			 border-color: #666666;
+			 background-color: #ffffff;
+			 text-align:center;
+		 }
+	</style>
+    <body>
+		<div style="height:40px;">
+			<button href="javascript:void(0);" class="button" style="float:left;">全部样品</button>
+			<button href="javascript:void(0);" class="button" style="float:left;">符合</button>
+			<button href="javascript:void(0);" class="button" style="float:left;">不符合</button>
+			<button href="javascript:void(0);" class="button" style="float:left;">打印</button>
+		</div>
+		
+		
+		
+		
+		<div style="height:300px;">
+			<table class= 'gridtable'>
+			<tr>
+				<th colspan="6" style="height:10px;font-family:Arial;text-align:left;">NO:{{SN}}-{{Times}}
+			</tr>
+			<tr>
+				<th>条码号</th>
+				<th>商品名称</th>
+				<th>规格</th>
+				<th>符号等级</th>
+				<th>质量问题</th>
+				<th>应用问题</th>
+			</tr>
+				{% for value in itemlist %}
+			<tr>
+				<td align="center">{{ value.Barcode}}</td>
+				<td>{{ value.SampleName}}</td>
+				<td align="center">{{value.Spec}}</td>
+				<td align="center">{{value.Overallgrade}}</td>
+				<td align="center">/</td>
+				<td align="center">/</td>
+			</tr>
+				{% endfor %}
+			</table>
+		</div>
+	
+	
+	
+	</body>
+</html>
+	
